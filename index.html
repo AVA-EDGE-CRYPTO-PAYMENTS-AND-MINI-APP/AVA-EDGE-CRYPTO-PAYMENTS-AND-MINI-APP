@@ -384,7 +384,9 @@ button{
     <div class="text">
       <div class="title">AVA SYSTEM</div>
       <div class="sub">Бессрочная подписка</div>
-      <div class="price">ОПЛАТА — <span>0.3 GRAM</span></div>
+      <div id="payment-banner" class="price">
+  ОПЛАТА — <span>0.3 TON</span>
+</div>
     </div>
 
   </div>
@@ -535,5 +537,28 @@ document.getElementById("connect-wallet").addEventListener("click", async () => 
 });
 </script>
 
+<script>
+async function checkPayment() {
+  try {
+    const res = await fetch(
+      "https://ava-edge-payment-checker.tianssa9.workers.dev/"
+    );
+
+    const data = await res.json();
+
+    if (data.paid === true) {
+      document.getElementById("payment-banner").style.display = "none";
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+checkPayment();
+
+setInterval(checkPayment, 3000);
+</script>
+  
 </body>
 </html>
