@@ -688,16 +688,15 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
 
 .top,
 .container{
+  background: transparent !important;
+}
 
-background:
-linear-gradient(
-135deg,
-rgba(0,176,255,.85),
-rgba(64,196,255,.75)
-);
+.top::before{
+  display:none !important;
+}
 
-backdrop-filter:blur(18px);
-
+body{
+  background: linear-gradient(135deg, #f9f9f9, #f2f2f2) !important;
 }
 
 .downloadBtn.green{
