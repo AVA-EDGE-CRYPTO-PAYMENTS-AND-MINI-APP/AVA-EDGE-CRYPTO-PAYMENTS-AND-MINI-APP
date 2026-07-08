@@ -933,72 +933,6 @@ button:active,
     outline: none;
     box-shadow: none;
 }
-
-.bottomBar{
-
-position:fixed;
-
-bottom:10px;
-
-left:10px;
-
-right:10px;
-
-
-height:75px;
-
-
-background:
-linear-gradient(
-135deg,
-#f9f9f9,
-#e8e8e8
-);
-
-
-border-radius:30px;
-
-
-display:flex;
-
-align-items:center;
-
-justify-content:space-around;
-
-
-box-shadow:
-0 8px 25px rgba(0,0,0,.18);
-
-
-backdrop-filter:blur(20px);
-
-
-z-index:99999;
-
-}
-
-
-
-.bottomBar button{
-
-
-width:55px;
-
-height:55px;
-
-
-border:0;
-
-background:none;
-
-
-font-size:28px;
-
-
-border-radius:18px;
-
-
-}
 </style>
 </head>
 
@@ -1112,18 +1046,18 @@ fill="url(#starGrad)"/>
   <div class="joystick" onclick="openPS5()">🎮</div>
 </div>
 
-<div class="top">
-    <button id="gamesNav">
-        Игры
-    </button>
-
-    <button id="botsNav">
-        Боты
-    </button>
-
-    <button id="servicesNav">
-        Apk hub
-    </button>
+<div class="row">
+<button class="langBtn" id="langBtn">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5"/>
+  <path d="M3 12H21" stroke="currentColor" stroke-width="2.5"/>
+  <path d="M12 3C15 6 16 9 16 12C16 15 15 18 12 21" stroke="currentColor" stroke-width="2.5"/>
+  <path d="M12 3C9 6 8 9 8 12C8 15 9 18 12 21" stroke="currentColor" stroke-width="2.5"/>
+</svg>
+</button>
+<div class="tab active" data-tab="games"></div>
+<div class="tab" data-tab="bots"></div>
+<div class="tab" data-tab="services"></div>
 </div>
 
 <div class="storyWrap">
@@ -1943,29 +1877,6 @@ tonConnectUI.onStatusChange(updateWalletUI);
 updateWalletUI();
 
 </script>
-
-<div class="bottomBar">
-
-<button id="gamesNav">
-    🎮
-</button>
-
-
-<button id="botsNav">
-    🤖
-</button>
-
-
-<button id="servicesNav">
-    ↓
-</button>
-
-
-<button id="walletNav">
-    💎
-</button>
-
-</div>
 
 </body>
 </html>
