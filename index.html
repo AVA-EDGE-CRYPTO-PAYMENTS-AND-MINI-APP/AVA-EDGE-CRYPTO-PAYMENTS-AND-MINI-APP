@@ -1,538 +1,1896 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000">
+<title>VISION GOD MODE STORE</title>
 
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="format-detection" content="telephone=no">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 
-<title>Game Loader</title>
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
 <style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,Inter,sans-serif;}
+body{
+  background: linear-gradient(135deg, #f9f9f9, #f2f2f2);
 }
 
-body,html{
-  height:100%;
+.container,
+.top{
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+
+  background: linear-gradient(135deg,#00b0ff,#40c4ff,#80d8ff);
+  backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.top{
+padding:14px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:10px;
+}
+
+.searchWrap{width:100%;max-width:1100px;position:relative;}
+.search{
+  width:100%;
+  padding:14px 50px 14px 14px;
+  border-radius:18px;
+  border:none;
+
+  background:#fff;
+  font-weight:800;
+
+  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+.joystick{position:absolute;right:8px;top:-17px;font-size:44px;cursor:pointer;transform:rotate(-25deg);}
+
+.row{width:100%;max-width:1100px;display:flex;gap:10px;}
+
+.langBtn{
+width:42px;height:42px;border-radius:12px;border:1px solid rgba(0,0,0,.06);
+background:linear-gradient(#fff,#f1f1f4);font-weight:800;cursor:pointer;
+}
+
+.tab{
+  flex:1;
+  padding:10px;
+  border-radius:16px;
+
+  background:rgba(255,255,255,0.9);
+  backdrop-filter: blur(10px);
+
+  text-align:center;
+  font-weight:800;
+  cursor:pointer;
+
+  transition:0.2s;
+}
+
+.tab.active{
+  background:#fff;
+  transform:scale(1.03);
+}
+
+.storyWrap{
+  border-radius:18px 18px 0 0;
   overflow:hidden;
-  background:#000;
+}
+.storyTrack{display:flex;transition:transform 0.8s cubic-bezier(.7,0,.3,1);will-change:transform;}
+
+.storyCard{flex:0 0 100%;height:220px;position:relative;cursor:pointer;}
+.storyCard img{width:100%;height:100%;object-fit:cover;}
+.storyBtn{position:absolute;left:14px;bottom:14px;background:rgba(0,0,0,.55);color:#fff;padding:10px 14px;border-radius:10px;font-weight:800;}
+
+
+.cardsContainer{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 394px; /* 👈 ДВИГАЕШЬ ТУТ */
+  bottom: 0;
+
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  padding: 0 0 84px 0;
+}
+  
+.grid{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 13px;
 }
 
-/* ================= SIDE PANELS ================= */
+.grid::after{
+  content:"";
+  display:block;
+  height:120px;
+}
 
-.side-bar{
-  position:fixed;
-  top:0;
-  width:115px;
-  height:100%;
-  background:#000;
-  z-index:10000;
+.grid{
+max-width:1100px;margin:0 auto;
+display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
+}
+
+.card{
+  width:100%;
 
   display:flex;
   align-items:center;
+  gap:14px;
+  padding:12px;
+  border-radius:18px;
+  background:#fff;
+  overflow:hidden;
+  min-width:0;
+
+  border:1px solid rgba(0,0,0,0.08);
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.card{
+  position: relative;
+  z-index: 1;
+}
+
+.icon{width:58px;height:58px;border-radius:14px;overflow:hidden;flex-shrink:0;}
+.icon img{width:100%;height:100%;object-fit:cover;}
+.name{
+  flex:1;
+  min-width:0;
+  font-weight:800;
+  line-height:1.2;
+
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+
+  overflow:hidden;
+  word-break:break-word;
+}
+
+.icon{
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.actions{display:flex;gap:8px;align-items:center;flex-shrink:0;margin-left:auto;}
+.btn,.favBtn{
+  height:38px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
   justify-content:center;
+
+  border:none;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+
+  transition:0.2s ease;
+  box-shadow:none; /* 👈 убрали свечение наружу */
+}
+
+/* OPEN BUTTON */
+.btn{
+  width:80px;
+
+  background: linear-gradient(135deg,
+    #00f5ff,
+    #3a7bd5,
+    #6f00ff
+  );
+}
+
+.walletBtn{
+  width:140px;   /* 👈 ширина кнопки Wallet */
+  background: linear-gradient(135deg,#00e5ff,#2979ff,#651fff);
+}
+
+.walletBtn{
+  font-size:18px; /* увеличил текст */
+  font-weight:900;
+}
+
+.downloadBtn{
+  background: linear-gradient(135deg,#ff1744,#ff5722,#ff9100);
+  width:90px;
+}
+
+/* FAVORITE BUTTON */
+.favBtn{
+  width:44px;
+
+  background: linear-gradient(135deg,
+    #ff00cc,
+    #7a00ff,
+    #00c3ff
+  );
+}
+
+/* hover без внешнего свечения */
+.btn:hover,
+.favBtn:hover{
+  filter: brightness(1.1);
+}
+
+/* =========================
+   OVERLAY (фон затемнения)
+========================= */
+.ps5Overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
 
   opacity:0;
   pointer-events:none;
-  transform:translateX(var(--dir));
+
+  transition:opacity .3s ease;
+  z-index:99;
 }
 
-.side-bar.show{
-  animation:slideIn .7s ease forwards;
+.ps5Overlay.show{
+  opacity:1;
+  pointer-events:auto;
 }
 
-@keyframes slideIn{
-  from{opacity:0; transform:translateX(var(--dir));}
-  to{opacity:1; transform:translateX(0);}
-}
-
-.side-left{ left:0; --dir:-120px; }
-.side-right{ right:0; --dir:120px; }
-
-.side-text{
-  display:flex;
-  flex-direction:column;
-  font-size:14px;
-  font-weight:900;
-  line-height:1.1;
-  text-align:center;
-  letter-spacing:1px;
-}
-
-.side-text div{
-  background:linear-gradient(120deg,#777,#fff,#aaa,#fff,#777);
-  background-size:200% 100%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:shine 2.2s linear infinite;
-}
-
-/* ================= LOADING ================= */
-
-#loading-screen{
+.ps5Sheet{
   position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  z-index:9999;
-  background:#111;
-  transition:opacity .5s ease;
-}
+  left:0;
+  right:0;
+  bottom:0;
 
-.center{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:18px;
-  transform:translateY(-20px);
-}
-
-.logo{
-  font-size:28px;
-  font-weight:900;
-  letter-spacing:0px;
-  background:linear-gradient(120deg,#777,#fff,#aaa,#fff,#777);
-  background-size:200% 100%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:shine 2.2s linear infinite;
-}
-
-@keyframes shine{
-  0%{background-position:0%}
-  100%{background-position:200%}
-}
-
-.sub{
-  font-size:12px;
-  letter-spacing:2px;
-  color:#666;
-}
-
-.loader{
-  width:80%;
-  max-width:320px;
-  position:relative;
-}
-
-.bar{
   width:100%;
-  height:6px;
-  background:#1a1a1a;
-  border-radius:20px;
+  height:100dvh;
+
+  display:flex;
+  flex-direction:column;
+
+  padding-top:26px;
+
+  background: linear-gradient(
+    145deg,
+    #1b1b1f 0%,
+    #141418 50%,
+    #0f0f12 100%
+  );
+
+  border-radius:24px 24px 0 0;
+
+  z-index:100;
+
   overflow:hidden;
+
+  /* 🔥 скрыто по умолчанию */
+  transform: translateY(100%);
+  transition: transform .55s cubic-bezier(.2,.8,.2,1);
 }
 
-.progress{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,#fff,#888,#fff);
-  background-size:200% 100%;
-  animation:move 1.5s linear infinite;
+/* ОТКРЫТО */
+.ps5Sheet.open{
+  transform: translateY(0);
 }
 
-@keyframes move{
-  0%{background-position:0 0}
-  100%{background-position:200% 0}
-}
-
-.percent{
+/* ===== TOP FADE ===== */
+.ps5Sheet::before{
+  content:"";
   position:absolute;
-  top:-13px;
-  left:50%;
-  transform:translateX(-50%);
-  color:#fff;
-  font-size:12px;
-  font-weight:700;
+  top:0;
+  left:0;
+  width:100%;
+  height:90px;
+  pointer-events:none;
+  z-index:5;
+
+  background:linear-gradient(
+    to bottom,
+    rgba(255,255,255,.25) 0%,
+    rgba(255,255,255,.10) 40%,
+    rgba(255,255,255,.02) 70%,
+    rgba(255,255,255,0) 100%
+  );
 }
 
-/* ================= BUTTON ================= */
+/* ===== BOTTOM FADE ===== */
+.ps5Sheet::after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:110px;
+  pointer-events:none;
+  z-index:5;
 
-button{
-  display:block;
-  margin:18px auto 0 auto;
-  padding:12px 22px;
-  border:2px solid #fff;
-  border-radius:30px;
-  background:#1a1a1a;
+  background:linear-gradient(
+    to top,
+    rgba(255,255,255,.22) 0%,
+    rgba(255,255,255,.08) 40%,
+    rgba(255,255,255,.02) 70%,
+    rgba(255,255,255,0) 100%
+  );
+}
 
-  background:linear-gradient(120deg,#777,#fff,#aaa,#fff,#777);
-  background-size:200% 100%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:shine 2.2s linear infinite;
+/* =========================
+   HEADER
+========================= */
+.ps5Header{
+  padding:18px;
+  color:#fff;
+  font-weight:800;
+  letter-spacing:.3px;
 
-  font-weight:900;
+  transform: translateY(-15px);
+}
+
+.badgeWrap{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   cursor:pointer;
 }
 
-/* ================= GAME ================= */
+.badgeTooltip{
+  position:absolute;
+  bottom:120%;
+  left:50%;
+  transform:translateX(-50%) scale(0.95);
 
-.game-container{
-  position:fixed;
-  inset:0;
-  overflow:hidden;
-  display:none;
+  background:rgba(0,0,0,.55);
+  backdrop-filter: blur(10px);
+  color:#fff;
+
+  padding:6px 10px;
+  border-radius:10px;
+
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+
+  opacity:0;
+  pointer-events:none;
+  transition:0.2s ease;
+
+  border:1px solid rgba(255,255,255,.15);
 }
 
-.game-container iframe{
-  width:100%;
-  height:100%;
-  border:none;
+.badgeTooltip::after{
+  content:"";
+  position:absolute;
+  top:100%;
+  left:50%;
+  transform:translateX(-50%);
+  border:6px solid transparent;
+  border-top-color:rgba(0,0,0,.55);
 }
 
-/* ================= ROTATE SCREEN ================= */
+.badgeTooltip{
+  text-decoration:none;
+  color:#fff;
+}
 
-#rotate-screen{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:99999;
+/* =========================
+   GRID (избранное)
+========================= */
+.favGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-auto-rows:142px;
+  gap:10px;
 
-  display:none;
+  margin-top:15px;
+  padding:0 10px 120px 10px;
+
+  max-height:100%;
+
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+
+  box-sizing:border-box;
+
+  position:relative;
+  z-index:1;
+}
+
+/* =========================
+   CARD
+========================= */
+.favItem{
+  height:142px;
+  border-radius:18px;
+
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+
+  display:flex;
   flex-direction:column;
+
+  align-items:center;
+  justify-content:space-between;
+
+  text-align:center;
+  color:#fff;
+
+  padding:12px;
+  box-sizing:border-box;
+
+  overflow:hidden;
+
+  transition:transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+/* ИКОНКА СТРОГО 58x58 */
+.favItem img{
+  width:58px;
+  height:58px;
+  border-radius:14px;
+  object-fit:cover;
+  flex-shrink:0;
+}
+
+/* НАЗВАНИЕ (2 СТРОКИ, БЕЗ ПРЫЖКОВ) */
+.favItem > div:nth-child(2){
+  font-weight:800;
+  font-size:13px;
+  line-height:1.2;
+
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+
+  overflow:hidden;
+  word-break:break-word;
+
+  max-height:2.6em;
+
+  padding:0 4px;
+}
+
+/* КНОПКИ ВНИЗУ СТАБИЛЬНО */
+.favItem .actions{
+  display:flex;
+  gap:8px;
   justify-content:center;
   align-items:center;
-  gap:30px;
+
+  width:100%;
+  margin-top:0;
 }
 
-.phone{
-  width:90px;
-  height:160px;
-  border:4px solid #fff;
-  border-radius:18px;
+/* фикс кнопок чтобы не прыгали */
+.favItem .btn,
+.favItem .favBtn{
+  height:36px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.favItem .btn{
+  width:78px;
+  font-size:12px;
+}
+
+.favItem .favBtn{
+  width:40px;
+  font-size:14px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.ps5Footer{
+  margin-top:auto;
+  padding-bottom:35px;
+  display:flex;
+  justify-content:center;
+}
+
+/* =========================
+   BUTTON (SIRI STYLE)
+========================= */
+.siriClose{
   position:relative;
-  animation:rotatePhone 2s ease-in-out infinite;
+  overflow:hidden;
+
+  height:40px;
+  padding:0 26px;
+
+  font-size:14px;
+  font-weight:700;
+
+  border-radius:24px;
+
+  color:#111;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background: linear-gradient(
+    180deg,
+    #f6f6f8 0%,
+    #e7e7ec 100%
+  );
+
+  border:1px solid rgba(0,0,0,.10);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 -2px 10px rgba(0,0,0,.08),
+    0 6px 16px rgba(0,0,0,.14);
+
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
 }
 
-.phone-inner{
+/* белый глянец сверху */
+.siriClose::before{
+  content:"";
   position:absolute;
-  inset:10px;
-  border:2px solid rgba(255,255,255,.3);
-  border-radius:10px;
-}
+  inset:0;
 
-@keyframes rotatePhone{
-  0%{transform:rotate(0deg);}
-  100%{transform:rotate(90deg);}
-}
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,.75),
+    rgba(255,255,255,0) 60%
+  );
 
-.rotate-text{
-  color:#fff;
-  text-align:center;
-  font-size:22px;
-  font-weight:900;
-}
-
-.hide{
-  opacity:0;
   pointer-events:none;
 }
 
-.banner{
-    width: 500px;
-    min-height: 120px;
-    padding: 22px 28px;
-    border-radius: 20px;
+/* hover */
+.siriClose:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.05);
 
-    background: rgba(10,12,18,0.65);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(0,180,255,0.15);
-    box-shadow: 0 0 22px rgba(0,150,255,0.10);
-
-    display: flex;
-    align-items: center;      /* выравнивание по центру */
-    justify-content: space-between;
-    gap: 20px;                /* расстояние между левой частью и кнопкой */
-
-    color: #fff;
+  box-shadow:
+    0 10px 22px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,1);
 }
 
-.left{
+/* click */
+.siriClose:active{
+  transform: scale(.96);
+}
+
+.donateCard{
+  width:100%;
+  max-width:1095px;
+  margin:0 auto;
+
+  height:30px;
+
+  border-radius:0;
+  overflow:hidden;
+
   display:flex;
   align-items:center;
-  gap:10px;
+
+  background:linear-gradient(135deg,#ff7a00,#ffb300);
+
+  border:none !important;
+  box-shadow:none !important;
+
+  box-sizing:border-box;
 }
 
-.diamond{
-  width:30px;
-  height:30px;
-}
-
-.text{
+.donateTrack{
   display:flex;
-  flex-direction:column;
+  width:max-content;
+  animation:donateScroll 16s linear infinite;
 }
 
-.title{
-  font-size:11px;
-  color:#7cc7ff;
-  font-weight:800;
-}
+.donateItem{
+  flex-shrink:0;
 
-.sub{
-  font-size:12px;
-  color:#aab3c2;
-}
+  height:92px;
+  display:flex;
+  align-items:center;
 
-.price{
-  font-size:12px;
+  padding:0 20px;
+
+  font-size:13px;
   font-weight:900;
-  color:#00d4ff;
+
+  color:#111;
+  text-decoration:none;
+
+  white-space:nowrap;
 }
 
-.price span{
+@keyframes donateScroll{
+  0%{ transform:translateX(0%); }
+  100%{ transform:translateX(-50%); }
+}
+
+/* =========================
+   RIBBON (ЛЕНТОЧКА)
+========================= */
+
+.icon{
+  position:relative;
+  overflow:hidden;
+}
+
+.ribbon{
+  position:absolute;
+  top:6px;
+  right:-36px;
+  width:90px;
+  transform:rotate(45deg);
+  text-align:center;
+  font-size:6px;
+  font-weight:900;
+  padding:3px 0 2px 0;    /* 👈 чуть вниз */
+  color:#fff;
+  z-index:10;
+  pointer-events:none;
+}
+
+.ribbon{
+  z-index: 0;
+}
+
+/* цвета */
+.gold{ background:linear-gradient(135deg,#fff6a9,#ffd54f,#ffb300); color:#000; }
+.red{ background:linear-gradient(135deg,#ff1744,#ff5722,#ff9100); }
+.blue{ background:linear-gradient(135deg,#00e5ff,#2979ff,#651fff); }
+.green{ background:linear-gradient(135deg,#00ff88,#00c853,#00ff88); color:#000; }
+.purple{ background:linear-gradient(135deg,#e040fb,#7c4dff,#536dfe); }
+.pink{ background:linear-gradient(135deg,#ff80ab,#ff4081,#f50057); }
+
+.apkPinned{
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+  border-radius:0 0 18px 18px;
+}
+
+.card.blue .name{
   color:#fff;
 }
 
-.btn{
-  padding:10px 12px;
-  border:none;
+.card.blue{
+  background: linear-gradient(135deg,#00e5ff,#2979ff,#651fff);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.apkFull{
+  grid-column: 1 / -1;
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.firstFlatTop{
+  border-radius:0 0 18px 18px !important;
+}
+
+.top,
+.container{
+  background: transparent;
+}
+
+.downloadBtn.green{
+  background: linear-gradient(
+    135deg,
+    #00e5ff 0%,
+    #2979ff 100%
+  );
+
+  color:#fff;
+  width:90px;
+
+  border:none !important;
+  outline:none !important;
+  box-shadow:none !important;
+
+  overflow:hidden;
+  -webkit-tap-highlight-color: transparent;
+
+  position: relative;
+}
+
+.downloadBtn.green,
+.downloadBtn.green:focus,
+.downloadBtn.green:active{
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  appearance: none;
+}
+
+.top::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,0.05);
+  pointer-events:none;
+}
+
+.searchIcon{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#00e5ff; /* премиум цвет */
+  pointer-events:none;
+  display:flex;
+  align-items:center;
+}
+
+/* чтобы текст не залезал на лупу */
+.search{
+  padding-left:44px;
+}
+
+.searchIcon svg{
+  filter: none !important;
+}
+
+.langBtn{
+  width:42px;
+  height:42px;
   border-radius:12px;
-  background:linear-gradient(90deg,#0077ff,#00d4ff);
+  border:none;
+  background:#fff;
+
+  color:#00e5ff;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+.langBtn{
+  color:#000;
+}
+
+.langBtn svg{
+  stroke:#000 !important;
+  color:#000 !important;
+  filter:none !important;
+}
+
+.pulse{
+  animation: none !important;
+}
+
+@keyframes aurora{
+  0%,100%{
+    transform: scale(1);
+    filter: none;
+  }
+
+  50%{
+    transform: scale(1);
+    filter: none;
+  }
+}
+
+.card.firstFlatTop{
+  border-top-left-radius:0;
+  border-top-right-radius:0;
+}
+
+.card.blue{
+  background: linear-gradient(135deg,#00e5ff,#2979ff,#651fff);
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.searchIcon *{
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+.card.blue .name{
   color:#fff;
+}
+
+.card.blue{
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.card.gamePinned{
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  background: linear-gradient(135deg,#111,#3a3a3a,#000);
+  border: none !important;
+}
+
+.gamePinnedBtn{
+  background: linear-gradient(135deg,#1a1a1a,#2f2f2f,#4a4a4a);
+  width:80px;
+}
+
+.gamePinnedBtn:hover{
+  filter: brightness(1.2);
+}
+
+.card.gamePinned,
+.card.gamePinned .name,
+.card.gamePinned .btn,
+.card.gamePinned .favBtn{
+  color:#fff;
+}
+
+.name svg{ 
+ width:17px; 
+ height:17px;
+ flex-shrink:0;  
+ display:inline-block;
+ margin-left:6px;  
+ margin-left: -0px; /* 👈 приближает к тексту */
+ transform: translateY(3px);}
+
+.favItem div svg{
+  width:16px;
+  height:16px;
+  margin-left:6px;
+  vertical-align:middle;
+ margin-left: -0px; /* 👈 приближает к тексту */
+}
+
+.walletRow{
+  width:100%;
+  max-width:1100px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.walletConnectBtn{
+  padding:10px 14px;
+  border-radius:14px;
+  border:none;
+  cursor:pointer;
+
   font-weight:900;
+  color:#fff;
+
+  background: linear-gradient(135deg,#00e5ff,#2979ff,#651fff);
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
-#wallet-banner .btn{
-  -webkit-text-fill-color: #fff !important;
-  color: #fff !important;
-  background: linear-gradient(90deg,#0077ff,#00d4ff);
-  border: none;
-  border-radius: 12px;
-  padding: 10px 12px;
-  font-weight: 900;
-  cursor: pointer;
-  z-index: 100001;
+.walletStatus{
+  font-size:12px;
+  font-weight:700;
+  color:#fff;
+  opacity:0.9;
 }
 
-#wallet-banner .btn{
-  transform: translateY(-8px);
+.walletFloat {
+  position: fixed;
+  top: 17px;
+  right: 80px;
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
 }
 
+/* Убирает синее выделение при нажатии */
+*{
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+button,
+.tab,
+.langBtn,
+.btn,
+.favBtn,
+.storyCard,
+.joystick,
+.walletConnectBtn,
+.siriClose{
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+button:focus,
+button:active,
+.tab:focus,
+.tab:active,
+.langBtn:focus,
+.langBtn:active,
+.btn:focus,
+.btn:active,
+.favBtn:focus,
+.favBtn:active{
+    outline: none;
+    box-shadow: none;
+}
 </style>
 </head>
 
 <body>
 
-<!-- SIDE BARS -->
-<div class="side-bar side-left" id="leftBar">
-  <div class="side-text"><div>A</div><div>V</div><div>A</div><div> </div><div>E</div><div>D</div><div>G</div><div>E</div><div>👾</div><div> </div></div>
+<div id="iosBlock" style="
+position:fixed;
+inset:0;
+background:#000;
+color:#fff;
+display:none;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+text-align:center;
+z-index:999999;
+">
+  <h2>Требуется Android</h2>
+<p>
+Для использования платформы необходим смартфон на Android.
+Планшеты, ПК, Mac, iPhone и iPad не поддерживаются.
+</p>
 </div>
 
-<div class="side-bar side-right" id="rightBar">
-  <div class="side-text"><div>A</div><div>V</div><div>A</div><div> </div><div>E</div><div>D</div><div>G</div><div>E</div><div>👾</div><div> </div></div>
+<div class="top">
+
+<div class="walletFloat">
+  <button id="walletBtn" class="walletConnectBtn">
+    Connect Wallet
+  </button>
+
+  <div id="walletStatus" class="walletStatus"></div>
 </div>
 
-<!-- LOADING -->
-<div id="loading-screen">
-  <div class="center">
-    <div class="logo">AVA EDGE</div>
-    <div class="sub">INITIALIZING SYSTEM</div>
+<div class="searchWrap">
+  
+  <span class="searchIcon">
+<svg viewBox="0 0 100 100" width="26" height="26"class="auroraLens">
 
-    <div class="loader">
-      <div class="percent" id="percent">0%</div>
-      <div class="bar"><div class="progress" id="progress"></div></div>
-      <button id="subscribe">Подписаться</button>
-    </div>
+<defs>
+
+<linearGradient id="aurora" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0%" stop-color="#00F5FF">
+    <animate attributeName="stop-color"
+      values="#00F5FF;#7A00FF;#FF00C8;#00F5FF"
+      dur="6s" repeatCount="indefinite"/>
+  </stop>
+
+  <stop offset="50%" stop-color="#2F6BFF">
+    <animate attributeName="stop-color"
+      values="#2F6BFF;#00FFCC;#7A00FF;#2F6BFF"
+      dur="6s" repeatCount="indefinite"/>
+  </stop>
+
+  <stop offset="100%" stop-color="#7A00FF">
+    <animate attributeName="stop-color"
+      values="#7A00FF;#00F5FF;#2F6BFF;#7A00FF"
+      dur="6s" repeatCount="indefinite"/>
+  </stop>
+</linearGradient>
+
+<radialGradient id="glass">
+  <stop offset="0%" stop-color="#fff"/>
+  <stop offset="100%" stop-color="#e6f4ff"/>
+</radialGradient>
+
+<linearGradient id="starGrad">
+  <stop offset="0%" stop-color="#00F5FF"/>
+  <stop offset="100%" stop-color="#FF00C8"/>
+</linearGradient>
+
+</defs>
+
+<!-- glow -->
+<circle cx="45" cy="45" r="35"
+fill="none"
+stroke="url(#aurora)"
+stroke-width="10"
+opacity="0.2"/>
+
+<!-- ручка (как у тебя, не трогаем низ) -->
+<path d="M64 64 L88 88"
+stroke="url(#aurora)"
+stroke-width="18"
+stroke-linecap="round"/>
+
+<!-- линза (толще +50%) -->
+<circle cx="45" cy="45" r="32"
+fill="url(#glass)"
+stroke="url(#aurora)"
+stroke-width="9"/>
+
+<circle cx="45" cy="45" r="25"
+fill="#fff"/>
+
+<!-- звезды -->
+<polygon points="45,30 47,36 54,38 47,40 45,46 43,40 36,38 43,36"
+fill="url(#starGrad)"/>
+
+<polygon points="60,50 62,56 68,58 62,60 60,66 58,60 52,58 58,56"
+fill="url(#starGrad)"/>
+
+<polygon points="30,52 32,60 40,62 32,64 30,72 28,64 20,62 28,60"
+fill="url(#starGrad)"/>
+
+</svg>
+</span>
+
+  <input class="search" id="search" placeholder="Поиск..." />
+
+  <div class="joystick" onclick="openPS5()">🎮</div>
+</div>
+
+<div class="bottom-nav">
+
+<button class="langBtn" id="langBtn">
+<i data-lucide="languages"></i>
+</button>
+
+<button class="tab active" data-tab="games">
+<i data-lucide="gamepad-2"></i>
+</button>
+
+<button class="tab" data-tab="bots">
+<i data-lucide="bot"></i>
+</button>
+
+<button class="tab" data-tab="services">
+<i data-lucide="download"></i>
+</button>
+
+<button id="walletNav">
+<i data-lucide="wallet"></i>
+</button>
+
+</div>
+
+<div class="storyWrap">
+<div class="storyTrack" id="storyTrack"></div>
+</div>
+<div class="donateCard">
+  <div class="donateTrack">
+
+    <a class="donateItem" href="https://www.donationalerts.com/r/ava_edge" target="_blank">💰 Помогите развитию AVA EDGE • DonationAlerts •</a>
+
+    <a class="donateItem" href="https://www.donationalerts.com/r/ava_edge" target="_blank">💰 Support the development of ⭐ AVA EDGE ⭐ DonationAlerts 🚀</a>
+
+    <a class="donateItem" href="https://www.donationalerts.com/r/ava_edge" target="_blank">💰 Помогите развитию AVA EDGE • DonationAlerts •</a>
+
+     <a class="donateItem" href="https://www.donationalerts.com/r/ava_edge" target="_blank">💰 Support the development of ⭐ AVA EDGE ⭐ DonationAlerts 🚀</a>
+
   </div>
 </div>
 
-<!-- GAME -->
-<div class="game-container">
-  <iframe src="https://gamaverse.com/c/f/g/hazmob-fps-online-shooter-1777292074/"></iframe>
 </div>
 
-<!-- ROTATE -->
-<div id="rotate-screen">
-  <div class="phone"><div class="phone-inner"></div></div>
-  <div class="rotate-text">
-    Поверните устройство<br>
-    в горизонтальное положение
-  </div>
+<div class="cardsContainer" id="scrollContainer">
+  <div class="grid" id="grid"></div>
 </div>
 
-<div class="banner" id="wallet-banner" style="display:none; position:fixed; top:160px; left:50%; transform:translateX(-50%); z-index:100000;">
+<div class="ps5Overlay" id="overlay" onclick="closePS5()"></div>
 
-  <div class="left">
+<div class="ps5Sheet" id="sheet">
+<div class="ps5Header" id="ps5Title"></div>
 
-    <svg class="diamond" viewBox="0 0 64 64">
-      <defs>
-        <linearGradient id="dia" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#ffffff"/>
-          <stop offset="35%" stop-color="#7fe7ff"/>
-          <stop offset="70%" stop-color="#00b7ff"/>
-          <stop offset="100%" stop-color="#0077ff"/>
-        </linearGradient>
-      </defs>
+<div class="favGrid" id="favGrid"></div>
 
-      <path fill="url(#dia)" d="M32 4 L52 22 L32 60 L12 22 Z"/>
+<div class="ps5Footer">
+    <button id="closeBtn" class="siriClose">CLOSE</button>
+</div>
+
+<script>
+
+let lang="ru";
+let currentTab="games";
+const CARD_HEIGHT = 140;
+const BUFFER = 8;
+
+let scrollContainer = document.getElementById("scrollContainer");
+
+let visibleStart = 0;
+let visibleEnd = 0;
+
+let filteredCache = [];
+
+const searchInput = document.getElementById("search");
+
+let lastSearch = "";
+
+// ввод → поиск
+searchInput.addEventListener("input", function () {
+  const value = this.value.toLowerCase().trim();
+  render(value);
+});
+
+// Enter → очистка + фиксация
+searchInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+
+    const value = this.value.toLowerCase().trim();
+    if (!value) return;
+
+    lastSearch = value;
+
+    render(value);
+
+    this.value = "";
+    this.blur();
+  }
+});
+
+// очистка (если понадобится кнопка)
+function clearSearch(){
+  searchInput.value = "";
+  render("");
+  searchInput.focus();
+}
+
+// восстановление последнего поиска при фокусе
+searchInput.addEventListener("focus", function () {
+  if (lastSearch && !this.value) {
+    this.value = lastSearch;
+  }
+});
+
+const t={
+ru:{
+search:"Поиск...",
+games:"Игры",
+bots:"Боты",
+services:"Apk hub",
+trends:"Тренды",
+favorites:"Избранное",
+open:"Открыть",
+close:"Закрыть",
+ps5:"AVA EDGE STEAM"},
+en:{
+search:"Search...",
+games:"Games",
+bots:"Bots",
+services:"Apk hub",
+trends:"Trends",
+favorites:"Favorites",
+open:"Open",
+close:"Close",
+ps5:"AVA EDGE STEAM "}
+};
+
+function badge(){
+return `
+<svg viewBox="0 0 100 100">
+
+  <circle cx="50" cy="50" r="32" fill="#1d9bf0"/>
+
+  ${Array.from({length:24}).map((_,i)=>{
+    const angle = (i * (360/24)) * Math.PI/180;
+
+    const innerR = 32;
+    const outerR = 42;
+
+    const cx = 50, cy = 50;
+
+    const xTip = cx + Math.cos(angle) * outerR;
+    const yTip = cy + Math.sin(angle) * outerR;
+
+    const spread = 0.18;
+
+    const xLeft = cx + Math.cos(angle - spread) * innerR;
+    const yLeft = cy + Math.sin(angle - spread) * innerR;
+
+    const xRight = cx + Math.cos(angle + spread) * innerR;
+    const yRight = cy + Math.sin(angle + spread) * innerR;
+
+    return `
+      <polygon
+        points="${xLeft},${yLeft} ${xTip},${yTip} ${xRight},${yRight}"
+        fill="#1d9bf0"
+      />
+    `;
+  }).join("")}
+
+  <g transform="rotate(10 50 50)">
+    <path d="
+      M40 52
+      L46 58
+      L62 40
+    " 
+    stroke="#fff"
+    stroke-width="6"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    />
+  </g>
+
+</svg>
+`;
+}
+function applyLang(){
+document.getElementById("search").placeholder=t[lang].search;
+
+document.querySelectorAll(".tab")[0].innerText=t[lang].games;
+document.querySelectorAll(".tab")[1].innerText=t[lang].bots;
+document.querySelectorAll(".tab")[2].innerText=t[lang].services;
+
+document.getElementById("ps5Title").innerHTML =
+t[lang].ps5 + `
+
+<span class="badgeWrap"
+      style="display:inline-flex;align-items:center;gap:6px;transform:translateY(4px)">
+
+  <span style="width:18px;height:18px;display:inline-block">
+    <svg xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 40 40">
+
+      <path fill="#1DA1F2"
+        d="M23.931 4.095a5 5 0 0 1 6.444 3.144l.323.984a5 5 0 0 0 2.622 2.964l.938.442a5 5 0 0 1 2.333 6.78l-.467.924a5 5 0 0 0-.242 3.95l.35.975a5 5 0 0 1-3.143 6.444l-.985.323a5 5 0 0 0-2.964 2.622l-.441.938a5 5 0 0 1-6.78 2.333l-.925-.468a5 5 0 0 0-3.95-.242l-.975.351a5 5 0 0 1-6.444-3.144l-.323-.984a5 5 0 0 0-2.622-2.964l-.937-.441a5 5 0 0 1-2.334-6.78l.468-.925a5 5 0 0 0 .242-3.95l-.351-.975a5 5 0 0 1 3.144-6.444l.985-.323a5 5 0 0 0 2.963-2.622l.442-.938a5 5 0 0 1 6.78-2.333l.924.468a5 5 0 0 0 3.95.242l.975-.351Z"/>
+
+      <path fill="#FFFFFF"
+        d="M13.756 22.516a1.698 1.698 0 1 1 2.224-2.568l3.155 2.742 6.357-7.252a1.7 1.7 0 0 1 2.562 2.233l-7.87 9.076a1 1 0 0 1-1.408.101l-5.02-4.332Z"/>
+
     </svg>
+  </span>
 
-    <div class="text">
-      <div class="title">AVA SYSTEM</div>
-      <div class="sub">Бессрочная подписка</div>
-      <div class="price">ОПЛАТА — <span>0.3 GRAM</span></div>
-    </div>
+  <a class="badgeTooltip"
+     href="https://t.me/Ava_edge"
+     target="_blank">
+     AVA EDGE
+  </a>
 
-  </div>
+</span>
+`;
 
-  <button class="btn" id="connect-wallet">Connect Wallet</button>
+document.getElementById("closeBtn").innerHTML =
+`<span>${t[lang].close}</span>`;
+document.getElementById("closeBtn").onclick = closePS5; // ✅ FIX
 
+render();
+renderFav();
+updateStoryButtons();
+}
+
+function openText(){
+return t[lang].open;
+}
+
+const data={
+games:[
+{n:"y8gams",u:"https://t.me/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/7dd4pgmX/i-2.jpg",ribbonText:"TOP🔥",  ribbonColor:"gold"},
+{n:"gamvерсе",u:"https://t.me/Ava_Edge_bot?startapp=8662cc17d3ae3c41",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"HOT", ribbonColor:"red"},
+{n:"yTka",u:"https://t.me/Ava_Edge_bot?startapp=a89b4bcbed8f3bf3",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"NEW", ribbonColor:"blue"},
+{n:"1942",u:"https://t.me/Ava_Edge_bot?startapp=7bc42035e0f0ff7f",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"PRO", ribbonColor:"purple"},
+{n:"сонтер стрикс",u:"https://t.me/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"FREE", ribbonColor:"green"},
+{n:"Emerоооgency",u:"https://t.me/Ava_Edge_bot?startapp=271a2e0db2a071d1",i:"https://i.ibb.co/WNVkFtLs/utya.gif"},
+{n:"Oттbby Only",u:"https://t.me/Ava_Edge_bot?startapp=6aabe8faf1137911",i:"https://i.ibb.co/wrzcLT1X/2-5298730620845858283.gif"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergsssency",u:"https://t.me/Ava_Edge_bot?startapp=d3b621c1d6c68619",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergenssscy",u:"https://t.mxse/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergsssency",u:"https://t.mxdde/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergesssncy",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Obby Ozsnly",u:"https://t.messa,/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/d0dD2YZ9/IMG-20260606-191129.jpg"},
+{n:"Emergency",u:"https://t.xsddme/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergezssncy",u:"https://t.mezdvG/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergessxvncy",u:"https://t.mesaw/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergendsxxcy",u:"https://t.msccse/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergescfdncy",u:"https://t.medcs/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Obby Oxddnly",u:"https://t.sssawme/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/d0dD2YZ9/IMG-20260606-191129.jpg"},
+{n:"Emergessancy",u:"https://aat.mzccse/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergezccncy",u:"https://t.mexzaa,/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergenzsacy",u:"https://t.mxase/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergexzszncy",u:"https://t.msdse/xAva_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergenacvяcy",u:"https://t.sssme/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergencячвy",u:"https://t.mвыввe/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"}
+],
+bots:[
+{
+  n:"Кошелёк",
+  u:"https://tondonate.netlify.app/",
+  i:"https://i.ibb.co/9HbBhf12/IMG-20260624-154635-666.jpg",rightIcon: `
+<svg xmlns="http://www.w3.org/2000/svg"
+width="18"
+height="18"
+viewBox="0 0 40 40">
+
+  <path fill="#3CB1F5" d="M23.931 4.095a5 5 0 0 1 6.444 3.144l.323.984a5 5 0 0 0 2.622 2.964l.938.442a5 5 0 0 1 2.333 6.78l-.467.924a5 5 0 0 0-.242 3.95l.35.975a5 5 0 0 1-3.143 6.444l-.985.323a5 5 0 0 0-2.964 2.622l-.441.938a5 5 0 0 1-6.78 2.333l-.925-.468a5 5 0 0 0-3.95-.242l-.975.351a5 5 0 0 1-6.444-3.144l-.323-.984a5 5 0 0 0-2.622-2.964l-.937-.441a5 5 0 0 1-2.334-6.78l.468-.925a5 5 0 0 0 .242-3.95l-.351-.975a5 5 0 0 1 3.144-6.444l.985-.323a5 5 0 0 0 2.963-2.622l.442-.938a5 5 0 0 1 6.78-2.333l.924.468a5 5 0 0 0 3.95.242l.975-.351Z"/>
+
+  <path fill="#F8F8F8" d="M13.756 22.516a1.698 1.698 0 1 1 2.224-2.568l3.155 2.742 6.357-7.252a1.7 1.7 0 0 1 2.562 2.233l-7.87 9.076a1 1 0 0 1-1.408.101l-5.02-4.332Z"/>
+
+</svg>
+`},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"TOP🔥",  ribbonColor:"gold"},
+{n:"toners",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"TOP🔥",  ribbonColor:"gold",rightIcon: `
+<svg xmlns="http://www.w3.org/2000/svg"
+width="18"
+height="18"
+viewBox="0 0 40 40">
+
+  <path fill="#3CB1F5" d="M23.931 4.095a5 5 0 0 1 6.444 3.144l.323.984a5 5 0 0 0 2.622 2.964l.938.442a5 5 0 0 1 2.333 6.78l-.467.924a5 5 0 0 0-.242 3.95l.35.975a5 5 0 0 1-3.143 6.444l-.985.323a5 5 0 0 0-2.964 2.622l-.441.938a5 5 0 0 1-6.78 2.333l-.925-.468a5 5 0 0 0-3.95-.242l-.975.351a5 5 0 0 1-6.444-3.144l-.323-.984a5 5 0 0 0-2.622-2.964l-.937-.441a5 5 0 0 1-2.334-6.78l.468-.925a5 5 0 0 0 .242-3.95l-.351-.975a5 5 0 0 1 3.144-6.444l.985-.323a5 5 0 0 0 2.963-2.622l.442-.938a5 5 0 0 1 6.78-2.333l.924.468a5 5 0 0 0 3.95.242l.975-.351Z"/>
+
+  <path fill="#F8F8F8" d="M13.756 22.516a1.698 1.698 0 1 1 2.224-2.568l3.155 2.742 6.357-7.252a1.7 1.7 0 0 1 2.562 2.233l-7.87 9.076a1 1 0 0 1-1.408.101l-5.02-4.332Z"/>
+
+</svg>
+`},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=442daa837bcce474",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Obby Only",u:"https://t.me/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/d0dD2YZ9/IMG-20260606-191129.jpg"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Obby Only",u:"https://t.me/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/d0dD2YZ9/IMG-20260606-191129.jpg"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Obby Only",u:"https://t.me/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/d0dD2YZ9/IMG-20260606-191129.jpg"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Bot",u:"https://t.me/Ava_Edge_bot?startapp=271a2e0db2a071d1",i:"https://picsum.photos/seed/4/200"}
+],
+services:[
+{n:"XAPK Installer",u:"https://d.apkpure.net/b/APK/com.wuliang.xapkinstaller?versionCode=162&nc=arm64-v8a%2Carmeabi%2Carmeabi-v7a%2Cx86%2Cx86_64&sv=21",i:"https://i.ibb.co/C5SMKJ2T/unnamed.png",ribbonText:"FREE", ribbonColor:"green",color:"blue"},
+{n:"mergency",u:"https://чвt.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"TOP🔥",  ribbonColor:"gold"},
+{n:"mergncy",u:"https://астt.mмпe/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",rightIcon: `
+<svg xmlns="http://www.w3.org/2000/svg"
+width="18"
+height="18"
+viewBox="0 0 40 40">
+
+  <path fill="#3CB1F5" d="M23.931 4.095a5 5 0 0 1 6.444 3.144l.323.984a5 5 0 0 0 2.622 2.964l.938.442a5 5 0 0 1 2.333 6.78l-.467.924a5 5 0 0 0-.242 3.95l.35.975a5 5 0 0 1-3.143 6.444l-.985.323a5 5 0 0 0-2.964 2.622l-.441.938a5 5 0 0 1-6.78 2.333l-.925-.468a5 5 0 0 0-3.95-.242l-.975.351a5 5 0 0 1-6.444-3.144l-.323-.984a5 5 0 0 0-2.622-2.964l-.937-.441a5 5 0 0 1-2.334-6.78l.468-.925a5 5 0 0 0 .242-3.95l-.351-.975a5 5 0 0 1 3.144-6.444l.985-.323a5 5 0 0 0 2.963-2.622l.442-.938a5 5 0 0 1 6.78-2.333l.924.468a5 5 0 0 0 3.95.242l.975-.351Z"/>
+
+  <path fill="#F8F8F8" d="M13.756 22.516a1.698 1.698 0 1 1 2.224-2.568l3.155 2.742 6.357-7.252a1.7 1.7 0 0 1 2.562 2.233l-7.87 9.076a1 1 0 0 1-1.408.101l-5.02-4.332Z"/>
+
+</svg>
+`},
+{n:"Emergencд",u:"https://ааt.mааe/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emerлдgency",u:"https://аааt.mааe/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"TOP🔥",  ribbonColor:"gold"},
+{n:"Emerлдgency",u:"https://tттл.meсс/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Obлддby Onддly",u:"https://t.me/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/d0dD2YZ9/IMG-20260606-191129.jpg"},
+{n:"Eдджmergллency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"тдmergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emолergency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emerжэgency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emerшщgency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"ObbOnly",u:"https://t.me/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/d0dD2YZ9/IMG-20260606-191129.jpg"},
+{n:"ncy",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Eллncy",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emerллдgency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emerглдgency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emerллдgency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Obbyлдд Only",u:"https://t.me/Ava_Edge_bot?startapp=60d36bff338291d3",i:"https://i.ibb.co/d0dD2YZ9/IMG-20260606-191129.jpg"},
+{n:"Emergшшщency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergeожncy",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emerчсиgency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emergолдency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"Emerоджgency",u:"https://t.me/Ava_Edge_bot?startapp=62168a6d50aaf651",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png"},
+{n:"ogle",u:"https://t.me/Ava_Edge_bot?startapp=7df654adaa138d37",i:"https://picsum.photos/seed/5/200"}
+]
+};
+
+let favorites = JSON.parse(localStorage.getItem("fav")||"[]");
+
+function saveFav(){
+localStorage.setItem("fav",JSON.stringify(favorites));
+}
+
+function toggleFav(item){
+const index = favorites.findIndex(f => f.n === item.n);
+
+if(index !== -1){
+favorites.splice(index,1);
+}else{
+favorites.push(item);
+}
+
+saveFav();
+renderVisibleCards();
+renderFav();
+}
+
+const VISIBLE_CARDS = 20;
+const BUFFER_CARDS = 5;
+
+let renderItems = [];
+let renderSearch = "";
+
+function render(searchText = "") {
+
+  renderSearch = searchText;
+
+  const items = data[currentTab] || [];
+  const q = searchText.trim().toLowerCase();
+
+  renderItems = items.filter(item =>
+  item.n.toLowerCase().includes(q)
+);
+
+  if (!renderItems.length) {
+    renderEmptyState();
+    return;
+  }
+
+  renderVisibleCards();
+}
+
+  function renderVisibleCards(){
+
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  const favSet = new Set(favorites.map(f => f.n));
+
+  const fragment = document.createDocumentFragment();
+
+  renderItems.forEach((item, i) => {
+  const isFirstBotCard = currentTab === "bots" && i === 0;
+  const isFirstGameCard = currentTab === "games" && i === 0;
+  const isFirstServiceCard = currentTab === "services" && i === 0;
+
+    const c = document.createElement("div");
+c.className = "card";
+
+if (isFirstGameCard) {
+  c.classList.add("gamePinned");
+}
+
+if (
+  (currentTab === "bots" && i === 0) ||
+  (currentTab === "services" && i === 0)
+) {
+  c.classList.add("blue");
+}
+
+if (isFirstBotCard) {
+  c.classList.add("apkFull");
+}
+
+    if(i === 0){
+      c.classList.add("firstFlatTop");
+    }
+
+    c.innerHTML = `
+      <div class="icon">
+        <img src="${item.i}" loading="lazy" decoding="async">
+        ${item.ribbonText ? `
+          <div class="ribbon ${item.ribbonColor || "gold"}">
+            ${item.ribbonText}
+          </div>` : ""}
+      </div>
+
+      <div class="name">
+  <span>${item.n}</span>
+  ${item.rightIcon ? item.rightIcon : ""}
 </div>
 
-<script>
-
-const DURATION = 120000;
-const start = Date.now();
-
-const bar = document.getElementById("progress");
-const text = document.getElementById("percent");
-const screen = document.getElementById("loading-screen");
-
-const leftBar = document.getElementById("leftBar");
-const rightBar = document.getElementById("rightBar");
-
-const rotateScreen = document.getElementById("rotate-screen");
-const gameContainer = document.querySelector(".game-container");
-
-/* 🔥 БЛОКИРОВКА ДО ГОТОВНОСТИ */
-let gameReady = false;
-
-gameContainer.style.display = "none";
-
-/* SUBSCRIBE */
-document.getElementById("subscribe").onclick =
-  () => window.open("https://t.me/crocodile_y8", "_blank");
-
-/* ORIENTATION */
-function checkOrientation(){
-
-  if (!gameReady) return;
-
-  if(window.innerWidth > window.innerHeight){
-    rotateScreen.style.display = "none";
-    gameContainer.style.display = "block";
-   document.getElementById("wallet-banner").style.display = "flex";
-    leftBar.classList.add("show");
-    rightBar.classList.add("show");
-  } else {
-    rotateScreen.style.display = "flex";
-    gameContainer.style.display = "none";
-    document.getElementById("wallet-banner").style.display = "none";
-  }
+      <div class="actions">
+        <button class="${
+  isFirstGameCard
+    ? "btn gamePinnedBtn"
+    : isFirstBotCard
+      ? "btn walletBtn"
+      : isFirstServiceCard
+        ? "btn downloadBtn green"
+        : (currentTab === "services"
+            ? "btn downloadBtn green"
+            : "btn"
+          )
+}">
+  ${
+  isFirstGameCard
+    ? openText()
+    : isFirstBotCard
+      ? "Wallet Pay 💳"
+      : (currentTab==="services"
+          ? (lang==="ru" ? "Скачать" : "Download")
+          : openText()
+        )
 }
+</button>
 
-window.addEventListener("orientationchange", ()=>{
-  setTimeout(checkOrientation, 300);
-});
+        ${currentTab!=="services" && !isFirstBotCard && !isFirstGameCard
+  ? `<button class="favBtn">
+       ${favSet.has(item.n) ? "⭐" : "☆"}
+     </button>`
+  : ""}
+      </div>
+    `;
 
-window.addEventListener("resize", checkOrientation);
+    c.querySelector(".btn").onclick =
+      () => window.open(item.u,"_blank");
 
-/* LOADER */
-function loop(){
-  let p = ((Date.now() - start) / DURATION) * 100;
-  if (p > 100) p = 100;
-
-  bar.style.width = p + "%";
-  text.textContent = Math.floor(p) + "%";
-
-  if (p < 100){
-    requestAnimationFrame(loop);
-  } else {
-    text.textContent = "READY";
-
-    setTimeout(()=>{
-      screen.classList.add("hide");
-
-      setTimeout(()=>{
-        screen.style.display = "none";
-
-        gameReady = true;
-        checkOrientation();
-
-      },500);
-
-    },400);
-  }
-}
-
-loop();
-
-</script>
-
-<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-
-<script>
-const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-  manifestUrl: "https://ava-edge-crypto-payments-and-mini-app.github.io/AVA-EDGE-CRYPTO-PAYMENTS-AND-MINI-APP/tonconnect-manifest.json"
-});
-
-const walletBanner = document.getElementById("wallet-banner");
-
-function hideBanner() {
-  walletBanner.style.display = "none";
-}
-
-function showBanner() {
-  walletBanner.style.display = "flex";
-}
-
-/* 🔥 ВАЖНО: теперь после функций */
-tonConnectUI.onStatusChange((wallet) => {
-  if (wallet) {
-    hideBanner();
-  } else {
-    showBanner();
-  }
-});
-
-async function pay() {
-  try {
-    if (!tonConnectUI.connected) {
-      await tonConnectUI.connectWallet();
+    const favBtn = c.querySelector(".favBtn");
+    if(favBtn){
+      favBtn.onclick = () => toggleFav(item);
     }
 
-    const tx = {
-      validUntil: Math.floor(Date.now() / 1000) + 600,
-      messages: [
-        {
-          address: "UQDys2byCZacKMxyKKmr4nKiC_Ll_YDX6DIuiOSagP9vcn-m",
-          amount: (0.3 * 1e9).toString()
-        }
-      ]
-    };
+    fragment.appendChild(c);
+  });
 
-    await tonConnectUI.sendTransaction(tx);
+  grid.appendChild(fragment);
+}
 
+let scrollRAF = null;
+
+scrollContainer.addEventListener("scroll", () => {
+
+  if(scrollRAF) return;
+
+  scrollRAF = requestAnimationFrame(() => {
+
+    renderVisibleCards();
+
+    scrollRAF = null;
+  });
+});
+
+let stories=[
+{img:"https://i.ibb.co/q3txKRw9/i-4.jpg",url:"https://d-ru.apkpure.com/b/XAPK/com.axlebolt.standoff2?version=latest"},
+{img:"https://i.ibb.co/7dd4pgmX/i-2.jpg",url:"#"},
+{img:"https://i.ibb.co/9mwKs48j/p1-3018734-21ca6714.jpg",url:"#"}
+];
+
+let track;
+let index=0;
+
+function initStories(){
+track=document.getElementById("storyTrack");
+track.innerHTML="";
+
+const loop=[...stories,...stories];
+
+loop.forEach(s=>{
+const d=document.createElement("div");
+d.className="storyCard";
+d.innerHTML=`<img src="${s.img}"><div class="storyBtn">${openText()}</div>`;
+d.onclick=()=>window.open(s.url,"_blank");
+track.appendChild(d);
+});
+
+index=0;
+track.style.transform="translateX(0%)";
+}
+
+function nextStory(){
+index++;
+track.style.transition="transform 0.8s cubic-bezier(.7,0,.3,1)";
+track.style.transform=`translateX(-${index*100}%)`;
+
+if(index>=stories.length){
+setTimeout(()=>{
+track.style.transition="none";
+index=0;
+track.style.transform="translateX(0%)";
+},850);
+}
+}
+let storyTimer = null;
+
+function startStories(){
+  if(storyTimer) return;
+
+  storyTimer = setInterval(() => {
+    if(document.hidden) return;
+    nextStory();
+  },4000);
+}
+
+function stopStories(){
+  clearInterval(storyTimer);
+  storyTimer = null;
+}
+
+document.addEventListener("visibilitychange", () => {
+  if(document.hidden){
+    stopStories();
+  }else{
+    startStories();
+  }
+});
+
+function renderFav(){
+const fav=document.getElementById("favGrid");
+fav.innerHTML="";
+
+const seen = new Set();
+favorites = favorites.filter(item => {
+  if (seen.has(item.n)) return false;
+  seen.add(item.n);
+  return true;
+});
+
+if(!favorites.length){
+fav.innerHTML=`<div style="color:#fff;opacity:.6">Empty</div>`;
+return;
+}
+
+favorites.forEach(f=>{
+const d = document.createElement("div");
+d.className = "favItem";
+
+const img = document.createElement("img");
+img.src = f.i;
+img.loading = "lazy";
+img.decoding = "async";
+img.draggable = false;
+
+const name = document.createElement("div");
+name.innerHTML = `
+  <span>${f.n}</span>
+  ${f.rightIcon ? f.rightIcon : ""}
+`;
+
+const actions = document.createElement("div");
+actions.className = "actions";
+
+const openBtn = document.createElement("button");
+openBtn.className = "btn";
+openBtn.textContent = openText();
+openBtn.onclick = () => window.open(f.u, "_blank");
+
+const favBtn = document.createElement("button");
+favBtn.className = "favBtn";
+favBtn.textContent = "⭐";
+favBtn.onclick = () => toggleFav(f);
+
+actions.appendChild(openBtn);
+actions.appendChild(favBtn);
+
+d.appendChild(img);
+d.appendChild(name);
+d.appendChild(actions);
+
+fav.appendChild(d);
+});
+}
+
+function openPS5(){
+document.getElementById("sheet").classList.add("open");
+document.getElementById("overlay").classList.add("show");
+renderFav();
+}
+
+function closePS5(){
+document.getElementById("sheet").classList.remove("open");
+document.getElementById("overlay").classList.remove("show");
+}
+
+document.getElementById("langBtn").onclick=()=>{
+lang = lang==="ru" ? "en" : "ru";
+applyLang();
+};
+
+document.querySelectorAll(".tab").forEach(tab=>{
+tab.onclick = () => {
+
+  document.querySelectorAll(".tab")
+    .forEach(t => t.classList.remove("active"));
+
+  tab.classList.add("active");
+
+  currentTab = tab.dataset.tab;
+
+  document.getElementById("search").value = "";
+
+  scrollContainer.scrollTop = 0;
+
+  visibleStart = -1;
+  visibleEnd = -1;
+
+  render(); // полный пересчет
+};
+});
+
+function isBlockedDevice() {
+
+  const ua = navigator.userAgent;
+
+  const isIOS =
+    /iPhone|iPad|iPod/i.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  const isMac = /Macintosh|Mac OS X/i.test(ua);
+
+  const isLargeScreen = window.innerWidth >= 600;
+
+  return isIOS || isMac || isLargeScreen;
+}
+
+function checkBlock() {
+  if (isBlockedDevice()) {
+
+    document.getElementById("iosBlock").style.display = "flex";
+
+    document.querySelector(".top").style.display = "none";
+    document.querySelector(".container").style.display = "none";
+
+    const overlay = document.querySelector(".ps5Overlay");
+    if (overlay) overlay.style.display = "none";
+
+    const sheet = document.querySelector(".ps5Sheet");
+    if (sheet) sheet.style.display = "none";
+
+    document.body.style.overflow = "hidden";
+  }
+}
+
+checkBlock();
+
+applyLang();
+lucide.createIcons();
+render();
+initStories();
+renderFav();
+
+startStories();
+
+function updateStoryButtons(){
+  document.querySelectorAll(".storyBtn").forEach(btn=>{
+    btn.textContent = openText();
+  });
+}
+
+let tooltipTimer;
+
+document.addEventListener("click", function(e){
+  const badge = e.target.closest(".badgeWrap");
+  if(!badge) return;
+
+  const tooltip = badge.querySelector(".badgeTooltip");
+
+  // показать
+  tooltip.classList.add("show");
+
+  // очистить старый таймер
+  clearTimeout(tooltipTimer);
+
+  // скрыть через 5 секунд
+  tooltipTimer = setTimeout(()=>{
+    tooltip.classList.remove("show");
+  }, 5000);
+});
+
+const DUCK_ANIMATION_URL =
+  "https://assets9.lottiefiles.com/packages/lf20_Q4xjvY.json";
+
+/* ===== SAFE LOTTIE LOADER ===== */
+function safeLottie(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  if (!window.lottie) return;
+
+  try {
+    lottie.loadAnimation({
+      container: el,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: DUCK_ANIMATION_URL
+    });
   } catch (e) {
-    console.log("Payment error:", e);
+    console.warn("Lottie error:", e);
   }
 }
 
-document.getElementById("connect-wallet").addEventListener("click", async () => {
-  hideBanner();
+/* ===== EMPTY STATE ===== */
+function renderEmptyState() {
+  const grid = document.getElementById("grid");
 
-  try {
-    await pay();
-  } finally {
-    if (!tonConnectUI.connected) {
-      showBanner();
-    }
-  }
+  grid.innerHTML = `
+    <div style="
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:60px 20px;
+      text-align:center;
+    ">
+
+      <img
+  src="https://i.ibb.co/3mWg9LWH/gif-shrug-duck.gif"
+  style="width:240px;height:240px;"
+>
+
+      <div style="
+        color:#7c4dff;
+        font-weight:800;
+        margin-top:10px;
+        font-size:16px;
+      ">
+        Ничего не найдено
+      </div>
+
+      <div style="
+        color:#aaa;
+        font-size:12px;
+        margin-top:6px;
+      ">
+        Попробуйте изменить запрос
+      </div>
+
+    </div>
+  `;
+
+  setTimeout(() => {
+    safeLottie("duckAnim");
+  }, 50);
+}
+
+const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+  manifestUrl: "https://unknown1577.github.io/TON-Donate-Wallet/tonconnect-manifest.json"
 });
+
+const walletBtn = document.getElementById("walletBtn");
+const walletStatus = document.getElementById("walletStatus");
+
+async function updateWalletUI() {
+  const wallet = tonConnectUI.wallet;
+
+  if (wallet) {
+    walletStatus.innerText = "Connected: " + wallet.account.address.slice(0, 6) + "...";
+    walletBtn.innerText = "Disconnect";
+  } else {
+    walletStatus.innerText = "Not connected";
+    walletBtn.innerText = "Connect Wallet";
+  }
+}
+
+walletBtn.addEventListener("click", async () => {
+  const wallet = tonConnectUI.wallet;
+
+  if (wallet) {
+    await tonConnectUI.disconnect();
+  } else {
+    await tonConnectUI.openModal();
+  }
+
+  updateWalletUI();
+});
+
+tonConnectUI.onStatusChange(updateWalletUI);
+
+updateWalletUI();
+
+document.getElementById("walletNav").onclick = () => {
+    walletBtn.click();
+};
+
 </script>
 
 </body>
