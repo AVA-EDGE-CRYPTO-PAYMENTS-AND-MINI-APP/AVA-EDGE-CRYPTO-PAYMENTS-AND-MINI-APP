@@ -660,6 +660,8 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
   position:sticky;
   top:0;
   z-index:50;
+}
+
   border-radius:0 0 18px 18px;
 }
 
@@ -688,15 +690,7 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
 
 .top,
 .container{
-  background: transparent !important;
-}
-
-.top::before{
-  display:none !important;
-}
-
-body{
-  background: linear-gradient(135deg, #f9f9f9, #f2f2f2) !important;
+  background: transparent;
 }
 
 .downloadBtn.green{
@@ -876,32 +870,18 @@ body{
 }
 
 .walletConnectBtn{
-padding:11px 18px;
-border-radius:18px;
-border:none;
-cursor:pointer;
+  padding:10px 14px;
+  border-radius:14px;
+  border:none;
+  cursor:pointer;
 
-font-weight:900;
-font-size:14px;
+  font-weight:900;
+  color:#fff;
 
-color:white;
-
-background:
-linear-gradient(
-135deg,
-#00f5ff,
-#2979ff,
-#651fff
-);
-
-box-shadow:
-0 8px 25px rgba(41,121,255,.35),
-inset 0 1px 1px rgba(255,255,255,.5);
-
-backdrop-filter:blur(10px);
-
-transition:.25s;
+  background: linear-gradient(135deg,#00e5ff,#2979ff,#651fff);
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
+
 .walletStatus{
   font-size:12px;
   font-weight:700;
@@ -952,23 +932,6 @@ button:active,
 .favBtn:active{
     outline: none;
     box-shadow: none;
-}
-
-.card{
-  will-change:transform;
-  transition:
-  transform .18s ease,
-  box-shadow .18s ease;
-}
-
-.card:active{
- transform:scale(.97);
-}
-
-.btn:active,
-.favBtn:active,
-.walletConnectBtn:active{
- transform:scale(.95);
 }
 </style>
 </head>
@@ -1148,27 +1111,11 @@ let filteredCache = [];
 const searchInput = document.getElementById("search");
 
 let lastSearch = "";
-let searchTimer = null;
 
-
-// плавный поиск без лагов
+// ввод → поиск
 searchInput.addEventListener("input", function () {
-
-  clearTimeout(searchTimer);
-
-  const value = this.value
-    .toLowerCase()
-    .trim();
-
-
-  searchTimer = setTimeout(()=>{
-
-    lastSearch = value;
-
-    render(value);
-
-  },150);
-
+  const value = this.value.toLowerCase().trim();
+  render(value);
 });
 
 // Enter → очистка + фиксация
@@ -1187,8 +1134,6 @@ searchInput.addEventListener("keydown", function (e) {
     this.blur();
   }
 });
-
-
 
 // очистка (если понадобится кнопка)
 function clearSearch(){
@@ -1454,9 +1399,7 @@ localStorage.setItem("fav",JSON.stringify(favorites));
 }
 
 function toggleFav(item){
-const index = favorites.findIndex(
-f => f.u === item.u
-);
+const index = favorites.findIndex(f => f.n === item.n);
 
 if(index !== -1){
 favorites.splice(index,1);
@@ -1499,7 +1442,7 @@ function render(searchText = "") {
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
 
- const favSet = new Set(favorites.map(f => f.u));
+  const favSet = new Set(favorites.map(f => f.n));
 
   const fragment = document.createDocumentFragment();
 
@@ -1532,12 +1475,7 @@ if (isFirstBotCard) {
 
     c.innerHTML = `
       <div class="icon">
-        <img 
-src="${item.i}" 
-loading="lazy"
-decoding="async"
-onerror="this.src='https://picsum.photos/200'"
->
+        <img src="${item.i}" loading="lazy" decoding="async">
         ${item.ribbonText ? `
           <div class="ribbon ${item.ribbonColor || "gold"}">
             ${item.ribbonText}
@@ -1600,18 +1538,14 @@ let scrollRAF = null;
 
 scrollContainer.addEventListener("scroll", () => {
 
- if(scrollRAF) return;
+  if(scrollRAF) return;
 
- scrollRAF=requestAnimationFrame(()=>{
+  scrollRAF = requestAnimationFrame(() => {
 
-   if(currentTab){
-      renderVisibleCards();
-   }
+    renderVisibleCards();
 
-   scrollRAF=null;
-
- });
-
+    scrollRAF = null;
+  });
 });
 
 let stories=[
@@ -1941,10 +1875,6 @@ walletBtn.addEventListener("click", async () => {
 tonConnectUI.onStatusChange(updateWalletUI);
 
 updateWalletUI();
-
-window.addEventListener("load",()=>{
- updateWalletUI();
-});
 
 </script>
 
