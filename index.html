@@ -933,6 +933,72 @@ button:active,
     outline: none;
     box-shadow: none;
 }
+
+.bottomBar{
+
+position:fixed;
+
+bottom:10px;
+
+left:10px;
+
+right:10px;
+
+
+height:75px;
+
+
+background:
+linear-gradient(
+135deg,
+#f9f9f9,
+#e8e8e8
+);
+
+
+border-radius:30px;
+
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-around;
+
+
+box-shadow:
+0 8px 25px rgba(0,0,0,.18);
+
+
+backdrop-filter:blur(20px);
+
+
+z-index:99999;
+
+}
+
+
+
+.bottomBar button{
+
+
+width:55px;
+
+height:55px;
+
+
+border:0;
+
+background:none;
+
+
+font-size:28px;
+
+
+border-radius:18px;
+
+
+}
 </style>
 </head>
 
@@ -1046,28 +1112,18 @@ fill="url(#starGrad)"/>
   <div class="joystick" onclick="openPS5()">🎮</div>
 </div>
 
-<div class="bottom-nav">
+<div class="top">
+    <button id="gamesNav">
+        Игры
+    </button>
 
-<button class="langBtn" id="langBtn">
-<i data-lucide="languages"></i>
-</button>
+    <button id="botsNav">
+        Боты
+    </button>
 
-<button class="tab active" data-tab="games">
-<i data-lucide="gamepad-2"></i>
-</button>
-
-<button class="tab" data-tab="bots">
-<i data-lucide="bot"></i>
-</button>
-
-<button class="tab" data-tab="services">
-<i data-lucide="download"></i>
-</button>
-
-<button id="walletNav">
-<i data-lucide="wallet"></i>
-</button>
-
+    <button id="servicesNav">
+        Apk hub
+    </button>
 </div>
 
 <div class="storyWrap">
@@ -1751,7 +1807,6 @@ function checkBlock() {
 checkBlock();
 
 applyLang();
-lucide.createIcons();
 render();
 initStories();
 renderFav();
@@ -1887,11 +1942,30 @@ tonConnectUI.onStatusChange(updateWalletUI);
 
 updateWalletUI();
 
-document.getElementById("walletNav").onclick = () => {
-    walletBtn.click();
-};
-
 </script>
+
+<div class="bottomBar">
+
+<button id="gamesNav">
+    🎮
+</button>
+
+
+<button id="botsNav">
+    🤖
+</button>
+
+
+<button id="servicesNav">
+    ↓
+</button>
+
+
+<button id="walletNav">
+    💎
+</button>
+
+</div>
 
 </body>
 </html>
