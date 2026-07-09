@@ -905,24 +905,26 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
   width:220px;
 }
 
+#ton-connect{
+    --tc-button-background: linear-gradient(
+        135deg,
+        #00e5ff,
+        #2979ff,
+        #651fff
+    );
+}
+
+
 #ton-connect button{
-  height:42px !important;
-  border-radius:14px !important;
+    background:var(--tc-button-background)!important;
+    border-radius:14px!important;
+    color:white!important;
+    font-weight:900!important;
+}
 
-  font-weight:900 !important;
 
-  background:linear-gradient(
-    135deg,
-    #00e5ff,
-    #2979ff,
-    #651fff
-  ) !important;
-
-  color:#fff !important;
-
-  border:none !important;
-
-  box-shadow:0 8px 20px rgba(0,0,0,.15) !important;
+#ton-connect *{
+    color:white!important;
 }
 
 /* Убирает синее выделение при нажатии */
