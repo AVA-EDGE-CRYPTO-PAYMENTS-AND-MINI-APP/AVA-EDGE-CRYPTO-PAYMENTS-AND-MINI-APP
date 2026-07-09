@@ -1842,39 +1842,29 @@ function renderEmptyState() {
 }
 
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-  manifestUrl: "https://ava-edge-crypto-payments-and-mini-app.github.io/AVA-EDGE-CRYPTO-PAYMENTS-AND-MINI-APP/tonconnect-manifest.json"
+    manifestUrl: "https://ava-edge-crypto-payments-and-mini-app.github.io/AVA-EDGE-CRYPTO-PAYMENTS-AND-MINI-APP/tonconnect-manifest.json"
 });
 
 const walletBtn = document.getElementById("walletBtn");
 const walletStatus = document.getElementById("walletStatus");
 
-async function updateWalletUI() {
-  const wallet = tonConnectUI.wallet;
+walletBtn.onclick = async () => {
+    await tonConnectUI.connectWallet();
+};
 
-  if (wallet) {
-    walletStatus.innerText = "Connected: " + wallet.account.address.slice(0, 6) + "...";
-    walletBtn.innerText = "Disconnect";
-  } else {
-    walletStatus.innerText = "Not connected";
-    walletBtn.innerText = "Connect Wallet";
-  }
-}
+tonConnectUI.onStatusChange(wallet => {
+    if (wallet) {
+        walletBtn.textContent =
+            wallet.account.address.slice(0,4) +
+            "..." +
+            wallet.account.address.slice(-4);
 
-walletBtn.addEventListener("click", async () => {
-  const wallet = tonConnectUI.wallet;
-
-  if (wallet) {
-    await tonConnectUI.disconnect();
-  } else {
-    await tonConnectUI.openModal();
-  }
-
-  updateWalletUI();
+        walletStatus.textContent = "Connected";
+    } else {
+        walletBtn.textContent = "Connect Wallet";
+        walletStatus.textContent = "";
+    }
 });
-
-tonConnectUI.onStatusChange(updateWalletUI);
-
-updateWalletUI();
 
 </script>
 
