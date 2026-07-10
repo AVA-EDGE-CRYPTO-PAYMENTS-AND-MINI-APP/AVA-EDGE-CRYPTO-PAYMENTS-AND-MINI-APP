@@ -41,15 +41,15 @@ align-items:center;
 gap:10px;
 }
 
-..searchWrap{
-    width:calc(100% - 30%);
+.searchWrap{
+    width:calc(100% - 120px); /* уменьшает только справа */
     max-width:1100px;
     position:relative;
 }
 
 .search{
     width:100%;
-    padding:14px 50px 14px 14px;
+    padding:14px 50px 14px 44px;
     border-radius:18px;
     border:none;
     background:#fff;
@@ -57,7 +57,21 @@ gap:10px;
     box-shadow:0 8px 20px rgba(0,0,0,0.12);
 }
 
-.joystick{position:absolute;right:8px;top:-17px;font-size:44px;cursor:pointer;transform:rotate(-25deg);}
+.searchIcon{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+.joystick{
+    position:absolute;
+    right:8px;
+    top:-17px;
+    font-size:44px;
+    cursor:pointer;
+    transform:rotate(-25deg);
+}
 
 .row{width:100%;max-width:1100px;display:flex;gap:10px;}
 
