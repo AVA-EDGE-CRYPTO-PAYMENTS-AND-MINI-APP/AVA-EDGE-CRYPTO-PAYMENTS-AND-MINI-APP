@@ -889,15 +889,18 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
 }
 
 .walletConnectBtn{
-  padding 23px 23px;
-  border-radius:16px;
+  position: relative;
+  left: 20px; /* увеличивай: 30px, 40px, 50px... */
+
+  padding:10px 14px;
+  border-radius:14px;
   border:none;
   cursor:pointer;
 
   font-weight:900;
   color:#fff;
 
-  background: linear-gradient(135deg,#00e5ff,#2979ff,#651fff);
+  background:linear-gradient(135deg,#00e5ff,#2979ff,#651fff);
   box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
@@ -911,7 +914,7 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
 .walletFloat {
   position: fixed;
   top: 17px;
-  right: -50px;
+  right: 110px;
   z-index: 9999;
 
   display: flex;
