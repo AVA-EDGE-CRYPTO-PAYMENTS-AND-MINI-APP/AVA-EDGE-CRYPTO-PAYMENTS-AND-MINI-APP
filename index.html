@@ -925,8 +925,6 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
 
 #ton-connect{
   width:170px;
-  max-width:100%;
-  transform:translateX( 0px); /* сдвиг вправо */
 }
 
 #ton-connect{
@@ -940,14 +938,22 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
 
 
 #ton-connect button{
+    width:170px !important;
+    min-width:170px !important;
+    max-width:170px !important;
+
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+
     background:var(--tc-button-background)!important;
     border-radius:20px!important;
     color:white!important;
     font-weight:900!important;
     min-height:42px;
-    padding:0 18px;
-}
 
+    padding:0 12px !important;
+}
 
 #ton-connect *{
     color:white!important;
