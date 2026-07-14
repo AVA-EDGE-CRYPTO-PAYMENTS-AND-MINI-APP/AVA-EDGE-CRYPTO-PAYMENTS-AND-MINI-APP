@@ -310,6 +310,16 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
   transform: translateY(0);
 }
 
+.favTitle{
+  padding:18px 0 8px;
+  text-align:center;
+
+  font-size:22px;
+  font-weight:900;
+
+  color:#000;
+}
+
 /* ===== TOP FADE ===== */
 .ps5Sheet::before{
   content:"";
@@ -1148,7 +1158,10 @@ fill="url(#starGrad)"/>
 <div class="ps5Overlay" id="overlay" onclick="closePS5()"></div>
 
 <div class="ps5Sheet" id="sheet">
-<div class="ps5Header" id="ps5Title"></div>
+
+<div class="favTitle">
+⭐ Избранное
+</div>
 
 <div class="favGrid" id="favGrid"></div>
 
