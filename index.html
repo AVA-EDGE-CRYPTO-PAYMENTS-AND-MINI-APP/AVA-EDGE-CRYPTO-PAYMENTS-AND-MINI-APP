@@ -1005,6 +1005,111 @@ button:active,
     outline: none;
     box-shadow: none;
 }
+
+.donatePremiumCard{
+
+grid-column:1/-1;
+
+height:105px;
+
+border-radius:0 0 40px 40px;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:0 30px;
+
+overflow:hidden;
+
+position:relative;
+
+
+background:
+radial-gradient(circle at 20% 100%,rgba(0,217,255,.25),transparent 35%),
+radial-gradient(circle at 85% 0%,rgba(0,114,255,.35),transparent 40%),
+linear-gradient(135deg,#050d18,#102d63,#0064d8,#00152e);
+
+
+box-shadow:
+0 20px 40px rgba(0,90,255,.35);
+
+}
+
+
+
+.donateLeft{
+
+display:flex;
+align-items:center;
+gap:15px;
+z-index:2;
+
+}
+
+
+.donatePremiumCard .donateIcon{
+
+width:60px;
+height:60px;
+
+}
+
+
+
+.donatePremiumCard .donateTitle{
+
+color:white;
+font-size:19px;
+font-weight:900;
+
+}
+
+
+
+.donatePremiumCard .donateText{
+
+color:#b8d9ff;
+font-size:12px;
+
+}
+
+
+.donateButton{
+
+height:45px;
+
+padding:0 22px;
+
+border-radius:20px;
+
+border:none;
+
+font-weight:900;
+
+color:white;
+
+background:
+linear-gradient(180deg,#16e5ff,#0066ff);
+
+box-shadow:
+0 8px 20px rgba(0,150,255,.5);
+
+}
+
+
+.donateStars{
+
+position:absolute;
+
+right:80px;
+top:10px;
+
+font-size:28px;
+
+opacity:.8;
+
+}
 </style>
 </head>
 
@@ -1349,7 +1454,11 @@ return t[lang].open;
 
 const data={
 games:[
-{n:"y8gams",u:"https://t.me/wallet/start?startapp=main",i:"https://i.ibb.co/7dd4pgmX/i-2.jpg",ribbonText:"TOP🔥",  ribbonColor:"gold"},
+{
+ n:"Поддержать AVA EDGE",
+ u:"#",
+ donateCard:true
+},
 {n:"gamvерсе",u:"https://t.me/Ava_Edge_bot?startapp=8662cc17d3ae3c41",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"HOT", ribbonColor:"red"},
 {n:"yTka",u:"https://t.me/Ava_Edge_bot?startapp=a89b4bcbed8f3bf3",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"NEW", ribbonColor:"blue"},
 {n:"1942",u:"https://t.me/Ava_Edge_bot?startapp=7bc42035e0f0ff7f",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"PRO", ribbonColor:"purple"},
@@ -1548,13 +1657,93 @@ if (isFirstBotCard) {
       c.classList.add("firstFlatTop");
     }
 
-    c.innerHTML = `
-      <div class="icon">
-        <img src="${item.i}" loading="lazy" decoding="async">
-        ${item.ribbonText ? `
-          <div class="ribbon ${item.ribbonColor || "gold"}">
-            ${item.ribbonText}
-          </div>` : ""}
+   if(item.donateCard){
+
+c.innerHTML = `
+
+<div class="donatePremiumCard">
+
+<div class="donateStars">
+⭐ ✦ ⭐
+</div>
+
+<div class="donateLeft">
+
+<div class="donateIcon">
+
+<svg viewBox="0 0 100 100">
+
+<defs>
+<linearGradient id="donBlue">
+<stop stop-color="#00d9ff"/>
+<stop offset="1" stop-color="#0072ff"/>
+</linearGradient>
+</defs>
+
+<rect x="5" y="5" width="90" height="90" rx="25"
+fill="url(#donBlue)"/>
+
+<path d="
+M38 30
+Q35 30 33 33
+L26 40
+Q24 42 26 45
+L47 73
+Q50 77 53 73
+L74 45
+Q76 42 74 40
+L67 33
+Q65 30 62 30Z"
+fill="white"/>
+
+<path d="
+M61 35
+L63 40
+L68 42
+L63 44
+L61 49
+L59 44
+L54 42
+L59 40Z"
+fill="#00d9ff"/>
+
+</svg>
+
+</div>
+
+
+<div>
+<div class="donateTitle">
+Поддержать AVA EDGE
+</div>
+
+<div class="donateText">
+Помогите развитию проекта через TON Donate
+</div>
+</div>
+
+
+</div>
+
+
+<button class="donateButton">
+💎 Донатить
+</button>
+
+
+</div>
+
+`;
+
+fragment.appendChild(c);
+return;
+
+}
+
+
+c.innerHTML = `
+<div class="icon">
+<img src="${item.i}" loading="lazy" decoding="async"> ` : ""}
       </div>
 
       <div class="name">
