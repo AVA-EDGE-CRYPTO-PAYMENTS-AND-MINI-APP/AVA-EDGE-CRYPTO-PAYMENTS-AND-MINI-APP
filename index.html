@@ -1746,7 +1746,7 @@ fill="#00d9ff"/>
 </div>
 
 
-<button class="donateButton">
+<button class="donateButton" onclick="openDonatePage()">
 💎 Донатить
 </button>
 
@@ -2152,6 +2152,13 @@ tonConnectUI.onStatusChange(wallet => {
     }
 
 });
+
+function openDonatePage() {
+  // Пока просто обработчик клика
+  console.log("Кнопка Донатить нажата");
+
+  // Позже здесь будет открываться страница донатов
+}
 
 </script>
 
