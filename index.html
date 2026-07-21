@@ -852,126 +852,13 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
   z-index: 10;
 }
 
-/* ===== DONATE GAME CARD ===== */
+.card.gamePinned{
+  position: sticky;
+  top: 0;
+  z-index: 10;
 
-.gameDonateCard{
-
-grid-column:1 / -1;
-
-height:105px;
-width:100%;
-
-position:relative;
-overflow:hidden;
-
-display:flex;
-align-items:center;
-justify-content:space-between;
-
-padding:0 35px;
-
-border-radius:0 0 40px 40px;
-
-
-background:
-radial-gradient(circle at 20% 100%,rgba(0,217,255,.35),transparent 35%),
-radial-gradient(circle at 85% 0%,rgba(139,92,255,.45),transparent 40%),
-linear-gradient(135deg,#000,#050816,#071b3d,#000);
-
-
-box-shadow:
-0 25px 60px rgba(0,150,255,.45),
-inset 0 0 50px rgba(0,217,255,.18);
-
-}
-
-
-
-.gameDonateCard:after{
-
-content:"";
-
-position:absolute;
-top:0;
-left:0;
-
-width:100%;
-height:2px;
-
-background:
-linear-gradient(
-90deg,
-transparent,
-#00eaff,
-white,
-#8b5cff,
-transparent
-);
-
-}
-
-
-
-/* информация */
-
-.gameDonateInfo{
-
-display:flex;
-align-items:center;
-gap:18px;
-
-z-index:2;
-
-}
-
-
-.gameDonateIcon{
-
-width:65px;
-height:65px;
-
-}
-
-
-.gameDonateTitle{
-
-color:white;
-font-size:20px;
-font-weight:900;
-
-}
-
-
-.gameDonateText{
-
-color:#9fc8ff;
-font-size:13px;
-
-margin-top:5px;
-
-}
-
-
-
-.gameDonateButton{
-
-height:48px;
-
-padding:0 28px;
-
-border-radius:20px;
-
-border:none;
-
-background:
-linear-gradient(180deg,#00e5ff,#0066ff);
-
-color:white;
-
-font-weight:900;
-
-font-size:15px;
-
+  background: linear-gradient(135deg,#111,#3a3a3a,#000);
+  border: none !important;
 }
 
 .gamePinnedBtn{
@@ -1117,6 +1004,122 @@ button:active,
 .favBtn:active{
     outline: none;
     box-shadow: none;
+}
+
+.donateBannerCard{
+grid-column:1 / -1;
+padding:0!important;
+border-radius:0 0 40px 40px!important;
+overflow:hidden;
+background:none!important;
+border:none!important;
+box-shadow:none!important;
+}
+
+
+.donateBanner{
+width:100%;
+height:105px;
+position:relative;
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 35px;
+
+border-radius:0 0 40px 40px;
+
+background:
+radial-gradient(circle at 20% 100%,rgba(0,217,255,.25),transparent 35%),
+radial-gradient(circle at 85% 0%,rgba(0,114,255,.35),transparent 40%),
+linear-gradient(135deg,#050d18,#102d63,#0064d8,#00152e);
+
+box-shadow:
+0 25px 60px rgba(0,90,255,.45),
+inset 0 0 40px rgba(0,217,255,.15);
+}
+
+
+.donateBanner:after{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:2px;
+background:linear-gradient(90deg,transparent,#00d9ff,white,#00d9ff,transparent);
+}
+
+
+.star{
+position:absolute;
+opacity:.9;
+filter:
+drop-shadow(0 0 10px #00eaff);
+animation:pulse 3s infinite ease-in-out;
+}
+
+.star1{
+width:32px;
+height:32px;
+left:25px;
+top:18px;
+}
+
+.star2{
+width:22px;
+height:22px;
+left:120px;
+bottom:18px;
+}
+
+
+.donateInfo{
+display:flex;
+align-items:center;
+gap:18px;
+z-index:2;
+}
+
+
+.donateIcon{
+width:65px;
+height:65px;
+}
+
+
+.donateIcon svg{
+width:60px;
+height:60px;
+}
+
+
+.donateTitle{
+color:white;
+font-size:20px;
+font-weight:900;
+}
+
+
+.donateText{
+color:#b8d9ff;
+font-size:13px;
+}
+
+
+.donateButton{
+z-index:3;
+height:48px;
+padding:0 28px;
+border-radius:20px;
+
+border:1px solid rgba(255,255,255,.35);
+
+background:linear-gradient(180deg,#16e5ff,#0066ff);
+
+color:white;
+font-size:15px;
+font-weight:900;
 }
 </style>
 </head>
@@ -1642,75 +1645,8 @@ function render(searchText = "") {
     const c = document.createElement("div");
 c.className = "card";
 
-if(isFirstGameCard){
-
-c.classList.add("gameDonateCard");
-
-c.innerHTML = `
-
-<div class="gameDonateInfo">
-
-<div class="gameDonateIcon">
-
-<svg viewBox="0 0 100 100">
-
-<defs>
-<linearGradient id="diamond">
-<stop stop-color="#00eaff"/>
-<stop offset="1" stop-color="#0066ff"/>
-</linearGradient>
-</defs>
-
-<rect 
-x="5" y="5" width="90" height="90" rx="25"
-fill="url(#diamond)"
-/>
-
-<path d="
-M38 30
-Q35 30 33 33
-L26 40
-Q24 42 26 45
-L47 73
-Q50 77 53 73
-L74 45
-Q76 42 74 40
-L67 33
-Q65 30 62 30Z"
-fill="white"/>
-
-</svg>
-
-</div>
-
-
-<div>
-
-<div class="gameDonateTitle">
-Поддержать AVA EDGE
-</div>
-
-<div class="gameDonateText">
-TON Donate • Развитие проекта
-</div>
-
-</div>
-
-</div>
-
-
-<button class="gameDonateButton">
-💎 Донатить
-</button>
-
-`;
-
-return;
-
-}
-
 if (isFirstGameCard) {
-  c.classList.add("gameDonateCard");
+  c.classList.add("donateBannerCard");
 }
 
 if (
@@ -1727,6 +1663,91 @@ if (isFirstBotCard) {
     if(i === 0){
       c.classList.add("firstFlatTop");
     }
+
+if(isFirstGameCard){
+
+c.innerHTML = `
+<div class="donateBanner">
+
+<svg class="star star1" viewBox="0 0 100 100">
+<path d="M50 0L60 40L100 50L60 60L50 100L40 60L0 50L40 40Z"/>
+</svg>
+
+<svg class="star star2" viewBox="0 0 100 100">
+<path d="M50 5L58 42L95 50L58 58L50 95L42 58L5 50L42 42Z"/>
+</svg>
+
+<div class="donateInfo">
+
+<div class="donateIcon">
+
+<svg viewBox="0 0 100 100">
+
+<defs>
+<linearGradient id="blueDonate" x1="0" y1="0" x2="1" y2="1">
+<stop stop-color="#00d9ff"/>
+<stop offset="1" stop-color="#0072ff"/>
+</linearGradient>
+</defs>
+
+<rect x="5" y="5" width="90" height="90" rx="25"
+fill="url(#blueDonate)"/>
+
+<path d="
+M38 30
+Q35 30 33 33
+L26 40
+Q24 42 26 45
+L47 73
+Q50 77 53 73
+L74 45
+Q76 42 74 40
+L67 33
+Q65 30 62 30Z"
+fill="white"/>
+
+<path d="
+M61 35
+L63 40
+L68 42
+L63 44
+L61 49
+L59 44
+L54 42
+L59 40Z"
+fill="#00d9ff"/>
+
+</svg>
+
+</div>
+
+
+<div>
+
+<div class="donateTitle">
+Поддержать AVA EDGE
+</div>
+
+<div class="donateText">
+Помогите развитию проекта через TON Donate
+</div>
+
+</div>
+
+</div>
+
+
+<button class="donateButton">
+💎 Донатить
+</button>
+
+
+</div>
+`;
+
+fragment.appendChild(c);
+return;
+}
 
     c.innerHTML = `
       <div class="icon">
