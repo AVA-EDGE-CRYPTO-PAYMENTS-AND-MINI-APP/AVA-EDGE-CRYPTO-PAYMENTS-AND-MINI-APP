@@ -852,13 +852,126 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
   z-index: 10;
 }
 
-.card.gamePinned{
-  position: sticky;
-  top: 0;
-  z-index: 10;
+/* ===== DONATE GAME CARD ===== */
 
-  background: linear-gradient(135deg,#111,#3a3a3a,#000);
-  border: none !important;
+.gameDonateCard{
+
+grid-column:1 / -1;
+
+height:105px;
+width:100%;
+
+position:relative;
+overflow:hidden;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:0 35px;
+
+border-radius:0 0 40px 40px;
+
+
+background:
+radial-gradient(circle at 20% 100%,rgba(0,217,255,.35),transparent 35%),
+radial-gradient(circle at 85% 0%,rgba(139,92,255,.45),transparent 40%),
+linear-gradient(135deg,#000,#050816,#071b3d,#000);
+
+
+box-shadow:
+0 25px 60px rgba(0,150,255,.45),
+inset 0 0 50px rgba(0,217,255,.18);
+
+}
+
+
+
+.gameDonateCard:after{
+
+content:"";
+
+position:absolute;
+top:0;
+left:0;
+
+width:100%;
+height:2px;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+#00eaff,
+white,
+#8b5cff,
+transparent
+);
+
+}
+
+
+
+/* информация */
+
+.gameDonateInfo{
+
+display:flex;
+align-items:center;
+gap:18px;
+
+z-index:2;
+
+}
+
+
+.gameDonateIcon{
+
+width:65px;
+height:65px;
+
+}
+
+
+.gameDonateTitle{
+
+color:white;
+font-size:20px;
+font-weight:900;
+
+}
+
+
+.gameDonateText{
+
+color:#9fc8ff;
+font-size:13px;
+
+margin-top:5px;
+
+}
+
+
+
+.gameDonateButton{
+
+height:48px;
+
+padding:0 28px;
+
+border-radius:20px;
+
+border:none;
+
+background:
+linear-gradient(180deg,#00e5ff,#0066ff);
+
+color:white;
+
+font-weight:900;
+
+font-size:15px;
+
 }
 
 .gamePinnedBtn{
@@ -1004,13 +1117,6 @@ button:active,
 .favBtn:active{
     outline: none;
     box-shadow: none;
-}
-
-.icon svg{
-width:100%;
-height:100%;
-display:block;
-border-radius:14px;
 }
 </style>
 </head>
@@ -1356,50 +1462,7 @@ return t[lang].open;
 
 const data={
 games:[
-{
-n:"y8gams",
-u:"https://t.me/wallet/start?startapp=main",
-svgIcon: `
-<svg viewBox="0 0 100 100">
-
-<defs>
-<linearGradient id="gameBlue" x1="0" y1="0" x2="1" y2="1">
-<stop stop-color="#00d9ff"/>
-<stop offset="1" stop-color="#0072ff"/>
-</linearGradient>
-</defs>
-
-<rect x="5" y="5" width="90" height="90" rx="25" fill="url(#gameBlue)"/>
-
-<path d="
-M38 30
-Q35 30 33 33
-L26 40
-Q24 42 26 45
-L47 73
-Q50 77 53 73
-L74 45
-Q76 42 74 40
-L67 33
-Q65 30 62 30Z"
-fill="white"/>
-
-<path d="
-M61 35
-L63 40
-L68 42
-L63 44
-L61 49
-L59 44
-L54 42
-L59 40Z"
-fill="#00d9ff"/>
-
-</svg>
-`,
-ribbonText:"TOP🔥",
-ribbonColor:"gold"
-},
+{n:"y8gams",u:"https://t.me/wallet/start?startapp=main",i:"https://i.ibb.co/7dd4pgmX/i-2.jpg",ribbonText:"TOP🔥",  ribbonColor:"gold"},
 {n:"gamvерсе",u:"https://t.me/Ava_Edge_bot?startapp=8662cc17d3ae3c41",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"HOT", ribbonColor:"red"},
 {n:"yTka",u:"https://t.me/Ava_Edge_bot?startapp=a89b4bcbed8f3bf3",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"NEW", ribbonColor:"blue"},
 {n:"1942",u:"https://t.me/Ava_Edge_bot?startapp=7bc42035e0f0ff7f",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"PRO", ribbonColor:"purple"},
@@ -1579,8 +1642,75 @@ function render(searchText = "") {
     const c = document.createElement("div");
 c.className = "card";
 
+if(isFirstGameCard){
+
+c.classList.add("gameDonateCard");
+
+c.innerHTML = `
+
+<div class="gameDonateInfo">
+
+<div class="gameDonateIcon">
+
+<svg viewBox="0 0 100 100">
+
+<defs>
+<linearGradient id="diamond">
+<stop stop-color="#00eaff"/>
+<stop offset="1" stop-color="#0066ff"/>
+</linearGradient>
+</defs>
+
+<rect 
+x="5" y="5" width="90" height="90" rx="25"
+fill="url(#diamond)"
+/>
+
+<path d="
+M38 30
+Q35 30 33 33
+L26 40
+Q24 42 26 45
+L47 73
+Q50 77 53 73
+L74 45
+Q76 42 74 40
+L67 33
+Q65 30 62 30Z"
+fill="white"/>
+
+</svg>
+
+</div>
+
+
+<div>
+
+<div class="gameDonateTitle">
+Поддержать AVA EDGE
+</div>
+
+<div class="gameDonateText">
+TON Donate • Развитие проекта
+</div>
+
+</div>
+
+</div>
+
+
+<button class="gameDonateButton">
+💎 Донатить
+</button>
+
+`;
+
+return;
+
+}
+
 if (isFirstGameCard) {
-  c.classList.add("gamePinned");
+  c.classList.add("gameDonateCard");
 }
 
 if (
@@ -1600,19 +1730,12 @@ if (isFirstBotCard) {
 
     c.innerHTML = `
       <div class="icon">
-
-${
-item.svgIcon 
-? item.svgIcon
-: `<img src="${item.i}" loading="lazy" decoding="async">`
-}
-
-${item.ribbonText ? `
-<div class="ribbon ${item.ribbonColor || "gold"}">
-${item.ribbonText}
-</div>` : ""}
-
-</div>
+        <img src="${item.i}" loading="lazy" decoding="async">
+        ${item.ribbonText ? `
+          <div class="ribbon ${item.ribbonColor || "gold"}">
+            ${item.ribbonText}
+          </div>` : ""}
+      </div>
 
       <div class="name">
   <span>${item.n}</span>
