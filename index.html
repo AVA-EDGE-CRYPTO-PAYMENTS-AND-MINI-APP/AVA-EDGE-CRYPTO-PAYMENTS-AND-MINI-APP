@@ -1154,9 +1154,10 @@ linear-gradient(
 position:relative;
 overflow:hidden;
 
+border:none;
+
 box-shadow:
-0 20px 50px rgba(0,0,0,.5),
-0 0 35px rgba(0,180,255,.35);
+0 8px 18px rgba(0,0,0,.12);
 
 }
 
@@ -1169,7 +1170,9 @@ inset:0;
 
 border-radius:24px;
 
-border:1px solid rgba(255,255,255,.55);
+border:1px solid rgba(255,255,255,.18);
+
+pointer-events:none;
 
 }
 
@@ -1177,19 +1180,7 @@ border:1px solid rgba(255,255,255,.55);
 
 .cyberWalletCard .chart{
 
-position:absolute;
-right:-5px;
-bottom:-4px;
-
-width:245px;
-height:105px;
-
-opacity:.55;
-
-filter:
-drop-shadow(0 0 10px #00ff99);
-
-animation:chartMove 3s infinite ease;
+filter:none;
 
 }
 
