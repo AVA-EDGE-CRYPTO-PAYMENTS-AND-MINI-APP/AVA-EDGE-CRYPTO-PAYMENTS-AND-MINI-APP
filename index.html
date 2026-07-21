@@ -103,7 +103,7 @@ background:linear-gradient(#fff,#f1f1f4);font-weight:800;cursor:pointer;
 }
 
 .storyWrap{
-  border-radius:18px 18px 0 0;
+  border-radius:30px 30px 0 0;
   overflow:hidden;
 }
 .storyTrack{display:flex;transition:transform 0.8s cubic-bezier(.7,0,.3,1);will-change:transform;}
@@ -832,21 +832,9 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
 }
 
 .card.blue{
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-
   background: linear-gradient(135deg,#00e5ff,#2979ff,#651fff);
-
   border: none !important;
-
-  box-shadow:
-    0 10px 35px rgba(0,90,255,.18),
-    inset 0 1px 0 rgba(255,255,255,.35),
-    inset 0 -18px 35px rgba(0,0,0,.12),
-    inset 0 0 35px rgba(0,229,255,.12);
-
-  border-top:1px solid rgba(255,255,255,.35);
+  box-shadow: none !important;
 }
 
 .searchIcon *{
@@ -1140,71 +1128,6 @@ font-weight:900;
 
 .donateBannerCard .donateBanner{
   height:82px !important;
-}
-
-.card.blue::before{
-    content:"";
-    position:absolute;
-    inset:-35%;
-
-    background:
-        radial-gradient(circle at 18% 20%,
-            rgba(255,255,255,.35),
-            transparent 28%),
-
-        radial-gradient(circle at 85% 10%,
-            rgba(0,229,255,.28),
-            transparent 30%),
-
-        radial-gradient(circle at 50% 120%,
-            rgba(255,255,255,.18),
-            transparent 45%);
-
-    pointer-events:none;
-    z-index:1;
-}
-
-.card.blue::after{
-    content:"";
-    position:absolute;
-
-    top:0;
-    left:0;
-
-    width:100%;
-    height:55%;
-
-    background:linear-gradient(
-        to bottom,
-        rgba(255,255,255,.28),
-        rgba(255,255,255,.08),
-        transparent
-    );
-
-    pointer-events:none;
-    z-index:2;
-}
-
-.card.blue .icon::before{
-    content:"";
-    position:absolute;
-
-    top:-40%;
-    left:-60%;
-
-    width:80%;
-    height:180%;
-
-    transform:rotate(-25deg);
-
-    background:linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,.45),
-        transparent
-    );
-
-    pointer-events:none;
 }
 </style>
 </head>
