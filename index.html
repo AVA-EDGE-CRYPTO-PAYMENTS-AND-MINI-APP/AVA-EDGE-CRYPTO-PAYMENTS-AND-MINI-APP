@@ -1005,6 +1005,123 @@ button:active,
     outline: none;
     box-shadow: none;
 }
+
+.donateBannerCard{
+grid-column:1 / -1;
+padding:0!important;
+border-radius:0 0 40px 40px!important;
+overflow:hidden;
+background:none!important;
+border:none!important;
+box-shadow:none!important;
+}
+
+
+.donateBanner{
+width:100%;
+height:105px;
+position:relative;
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 35px;
+
+border-radius:0 0 40px 40px;
+
+background:
+radial-gradient(circle at 20% 100%,rgba(0,217,255,.25),transparent 35%),
+radial-gradient(circle at 85% 0%,rgba(0,114,255,.35),transparent 40%),
+linear-gradient(135deg,#050d18,#102d63,#0064d8,#00152e);
+
+box-shadow:
+0 25px 60px rgba(0,90,255,.45),
+inset 0 0 40px rgba(0,217,255,.15);
+}
+
+
+.donateBanner:after{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:2px;
+background:linear-gradient(90deg,transparent,#00d9ff,white,#00d9ff,transparent);
+}
+
+
+.star{
+position:absolute;
+opacity:.9;
+filter:
+drop-shadow(0 0 10px #00eaff);
+animation:pulse 3s infinite ease-in-out;
+}
+
+.star1{
+width:32px;
+height:32px;
+left:25px;
+top:18px;
+}
+
+.star2{
+width:22px;
+height:22px;
+left:120px;
+bottom:18px;
+}
+
+
+.donateInfo{
+display:flex;
+align-items:center;
+gap:18px;
+z-index:2;
+}
+
+
+.donateIcon{
+width:65px;
+height:65px;
+}
+
+
+.donateIcon svg{
+width:60px;
+height:60px;
+}
+
+
+.donateTitle{
+color:white;
+font-size:20px;
+font-weight:900;
+}
+
+
+.donateText{
+color:#b8d9ff;
+font-size:13px;
+}
+
+
+.donateButton{
+z-index:3;
+height:48px;
+padding:0 28px;
+border-radius:20px;
+
+border:1px solid rgba(255,255,255,.35);
+
+background:linear-gradient(180deg,#16e5ff,#0066ff);
+
+color:white;
+font-size:15px;
+font-weight:900;
+}
+
 </style>
 </head>
 
@@ -1531,6 +1648,23 @@ c.className = "card";
 
 if (isFirstGameCard) {
   c.classList.add("gamePinned");
+}
+
+if (isFirstGameCard) {
+
+    c.className = "donateBanner";
+
+    c.innerHTML = `
+        <!-- СЮДА ВСТАВЬ ВЕСЬ HTML ИЗ ВТОРОГО КОДА
+             БЕЗ ВНЕШНЕГО <div class="donateBanner">...</div> -->
+    `;
+
+    c.onclick = () => {
+        window.open("https://твоя-ссылка", "_blank");
+    };
+
+    fragment.appendChild(c);
+    return;
 }
 
 if (
