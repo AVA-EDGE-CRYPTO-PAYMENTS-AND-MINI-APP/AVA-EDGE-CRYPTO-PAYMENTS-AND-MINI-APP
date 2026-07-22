@@ -175,7 +175,6 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
   flex:1;
   min-width:0;
   font-weight:800;
-  font-size:17px; /* ← увеличивает текст */
   line-height:1.2;
 
   display:-webkit-box;
@@ -193,8 +192,7 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
 }
 
 .actions{display:flex;gap:8px;align-items:center;flex-shrink:0;margin-left:auto;}
-.btn,
-.favBtn{
+.btn,.favBtn{
   height:38px;
   border-radius:12px;
   display:flex;
@@ -205,11 +203,16 @@ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;
   color:#fff;
   font-weight:800;
   cursor:pointer;
+
+  transition:0.2s ease;
+  box-shadow:none; /* 👈 убрали свечение наружу */
 }
 
 /* OPEN BUTTON */
 .btn{
-  width:80px;
+  width:95px;      /* ширина */
+  height:44px;     /* высота */
+  font-size:16px;  /* размер текста */
 }
 
   background: linear-gradient(135deg,
