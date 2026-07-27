@@ -1340,109 +1340,354 @@ transform:translateY(-5px);
     display:none !important;
 }
 
-.donateModal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.65);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:999999;
+.donateOverlay{
+
+position:fixed;
+inset:0;
+
+background:rgba(0,0,0,.45);
+
+display:flex;
+align-items:flex-end;
+justify-content:center;
+
+opacity:0;
+pointer-events:none;
+
+transition:.35s;
+
+z-index:999999;
+
 }
 
-.donateModal.show{
-    display:flex;
+
+.donateOverlay.show{
+
+opacity:1;
+pointer-events:auto;
+
 }
+
+
 
 .donateWindow{
-    width:100%;
-    max-width:390px;
-    max-height:95vh;
-    overflow:auto;
-    border-radius:30px;
+
+width:100%;
+max-width:390px;
+
+padding:18px;
+
+background:
+linear-gradient(145deg,#dff5ff,#f4f7fb);
+
+border-radius:38px 38px 0 0;
+
+transform:translateY(100%);
+
+transition:.4s;
+
 }
 
-.donateBox{
-background:#fff;
-border-radius:30px;
-padding:25px;
-text-align:center;
-position:relative;
-box-shadow:0 20px 60px rgba(0,0,0,.3);
+
+.donateOverlay.show .donateWindow{
+
+transform:translateY(0);
+
 }
 
-.donateClose{
-position:absolute;
-right:15px;
-top:15px;
-border:none;
-background:#eee;
-width:35px;
-height:35px;
-border-radius:50%;
-font-size:18px;
+
+
+.donateTop{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
 }
+
 
 .donateLogo{
-font-size:60px;
-margin-bottom:10px;
-}
 
-.donateBox h2{
-font-size:24px;
+font-size:25px;
 font-weight:900;
+
 }
 
-.donateBox p{
-margin:8px 0 20px;
-color:#777;
+
+.donateLogo span{
+
+color:#0098EA;
+
 }
 
-.donateAmount{
+
+
+.donateClose{
+
+width:40px;
+height:40px;
+
+border:0;
+border-radius:50%;
+
+background:white;
+
+font-size:24px;
+
+}
+
+
+
+.donateWallet{
+
+height:220px;
+
+margin-top:20px;
+
+padding:25px;
+
+border-radius:38px;
+
+background:
+linear-gradient(145deg,#0098EA,#0057ff);
+
+color:white;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+
+
+.walletHead{
+
 display:flex;
+justify-content:space-between;
+
+font-size:14px;
+
+}
+
+
+
+.walletBalance{
+
+margin-top:20px;
+
+font-size:45px;
+font-weight:900;
+
+}
+
+
+.walletBalance small{
+
+font-size:17px;
+
+}
+
+
+
+.gramIcon{
+
+position:absolute;
+
+right:25px;
+bottom:25px;
+
+width:82px;
+height:82px;
+
+border-radius:50%;
+
+background:white;
+
+display:flex;
+
 align-items:center;
 justify-content:center;
-gap:10px;
-background:#f3f3f3;
-padding:12px;
-border-radius:18px;
+
 }
 
-.donateAmount input{
-width:100px;
-border:none;
-background:none;
-font-size:22px;
+
+
+.gramIcon svg{
+
+width:60px;
+height:60px;
+
+}
+
+
+
+.donateCardWindow{
+
+margin-top:22px;
+
+padding:22px;
+
+border-radius:34px;
+
+background:#ffffffdd;
+
+backdrop-filter:blur(20px);
+
+}
+
+
+
+.donateTitleWindow{
+
+font-size:26px;
+
 font-weight:900;
-text-align:center;
-outline:none;
+
 }
 
-.quickDonate{
-display:flex;
-gap:8px;
-margin:20px 0;
+
+.donateSub{
+
+margin-top:8px;
+
+color:#667085;
+
+font-size:14px;
+
 }
 
-.quickDonate button{
-flex:1;
-height:38px;
-border:none;
-border-radius:14px;
-background:linear-gradient(135deg,#00e5ff,#2979ff);
-color:#fff;
-font-weight:900;
+
+
+.amountGrid{
+
+margin-top:22px;
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:12px;
+
 }
 
-.sendDonate{
-width:100%;
-height:50px;
-border:none;
-border-radius:18px;
-background:linear-gradient(135deg,#00e5ff,#651fff);
-color:#fff;
-font-weight:900;
+
+.amountBtn{
+
+height:48px;
+
+border:0;
+
+border-radius:17px;
+
+background:#f1f5f9;
+
+font-weight:700;
+
 font-size:16px;
+
+}
+
+
+.amountBtn.active{
+
+background:#0098EA;
+
+color:white;
+
+}
+
+
+
+.donateInput{
+
+width:100%;
+
+height:55px;
+
+margin-top:15px;
+
+border:0;
+
+border-radius:20px;
+
+background:#f1f5f9;
+
+text-align:center;
+
+font-size:17px;
+
+}
+
+
+
+.payBtn,
+.connectBtn{
+
+width:100%;
+
+height:58px;
+
+margin-top:15px;
+
+border:0;
+
+border-radius:22px;
+
+font-size:17px;
+
+font-weight:800;
+
+color:white;
+
+}
+
+
+
+.payBtn{
+
+background:linear-gradient(135deg,#00A8FF,#0066FF);
+
+}
+
+
+
+.connectBtn{
+
+background:linear-gradient(135deg,#4CC9FF,#0098EA);
+
+}
+
+
+
+.donateStatus{
+
+margin-top:15px;
+
+padding:14px;
+
+border-radius:20px;
+
+background:#f4f7fb;
+
+text-align:center;
+
+font-size:13px;
+
+}
+
+
+
+.donateFooter{
+
+text-align:center;
+
+margin-top:18px;
+
+font-size:12px;
+
+color:#98a2b3;
+
 }
 </style>
 </head>
@@ -1606,8 +1851,6 @@ fill="url(#starGrad)"/>
 
 <div class="ps5Footer">
     <button id="closeBtn" class="siriClose">CLOSE</button>
-</div>
-
 </div>
 
 <script>
@@ -2544,115 +2787,92 @@ tonConnectUI.onStatusChange(wallet => {
 
 function openDonatePage(){
 
-    document
-    .getElementById("donateModal")
-    .classList.add("show");
+document.getElementById("donateOverlay")
+.classList.add("show");
 
 }
 
 
 function closeDonate(){
 
-    document
-    .getElementById("donateModal")
-    .classList.remove("show");
+document.getElementById("donateOverlay")
+.classList.remove("show");
 
 }
 
+const amountButtons =
+document.querySelectorAll(".amountBtn");
 
-function setDonate(value){
+const donateInput =
+document.getElementById("donateInput");
 
-    document
-    .getElementById("donateAmount")
-    .value=value;
+const donateTop =
+document.getElementById("donateAmountTop");
 
-}
+
+amountButtons.forEach(btn=>{
+
+btn.onclick=()=>{
+
+amountButtons.forEach(b=>
+b.classList.remove("active")
+);
+
+btn.classList.add("active");
+
+donateInput.value=btn.innerText;
+
+donateTop.innerText=btn.innerText;
+
+};
+
+});
+
+
+donateInput.oninput=()=>{
+
+donateTop.innerText =
+donateInput.value || "0.00";
+
+};
 
 </script>
 
-<div id="donateModal" class="donateModal">
+<div class="donateOverlay" id="donateOverlay">
 
-    <div class="donateWindow">
-
-        <div class="app">
+<div class="donateWindow">
 
 
-<div class="top">
+<div class="donateTop">
 
-<div class="logo">
+<div class="donateLogo">
 AVA <span>EDGE</span>
 </div>
 
-
-<button class="close" onclick="closeDonate()">
-×
-</button>
-
+<button class="donateClose" onclick="closeDonate()">×</button>
 
 </div>
 
 
 
+<div class="donateWallet">
 
 
-<div class="wallet">
-
-
-<div class="wallet-head">
-
-<span>
-GRAM WALLET
-</span>
-
-<span>
-TON
-</span>
-
+<div class="walletHead">
+<span>GRAM WALLET</span>
+<span>TON</span>
 </div>
 
 
-
-
-<div class="balance">
-
-<span id="topAmount">0.00</span>
-
+<div class="walletBalance">
+<span id="donateAmountTop">0.00</span>
 <small>GRAM</small>
-
 </div>
 
 
-
-
-<div class="gram">
-
+<div class="gramIcon">
 
 <svg viewBox="0 0 100 100">
-
-
-<defs>
-
-<linearGradient id="diamond"
-x1="0"
-y1="0"
-x2="1"
-y2="1">
-
-<stop offset="0%"
-stop-color="#ffffff"/>
-
-<stop offset="45%"
-stop-color="#dff6ff"/>
-
-<stop offset="100%"
-stop-color="#8bdcff"/>
-
-</linearGradient>
-
-
-</defs>
-
-
 
 <path
 d="
@@ -2662,13 +2882,9 @@ H65
 L80 35
 L50 85
 Z"
-
-fill="url(#diamond)"
-
+fill="#fff"
 stroke="#0098EA"
-
 stroke-width="3"/>
-
 
 
 <path
@@ -2678,40 +2894,11 @@ H80
 L65 18
 H35
 Z"
-
 fill="#fff"/>
-
-
-
-<path
-d="
-M35 18
-L50 35
-L65 18
-
-M20 35
-L50 35
-L80 35
-
-M50 35
-V85
-
-M35 18
-L50 85
-
-M65 18
-L50 85"
-
-fill="none"
-
-stroke="#0098EA"
-
-stroke-width="2"/>
 
 
 </svg>
 
-
 </div>
 
 
@@ -2720,95 +2907,69 @@ stroke-width="2"/>
 
 
 
+<div class="donateCardWindow">
 
 
-
-<div class="card">
-
-
-<div class="title">
-
+<div class="donateTitleWindow">
 Support AVA EDGE
-
 </div>
 
 
-<div class="sub">
-
+<div class="donateSub">
 Поддержите развитие Web3 экосистемы
-
 </div>
 
 
 
 
-<div class="amounts">
+<div class="amountGrid">
 
-
-<button class="amount">0.1</button>
-
-<button class="amount">0.3</button>
-
-<button class="amount">1</button>
-
-
-<button class="amount">3</button>
-
-<button class="amount">10</button>
-
-<button class="amount">50</button>
-
+<button class="amountBtn">0.1</button>
+<button class="amountBtn active">0.3</button>
+<button class="amountBtn">1</button>
+<button class="amountBtn">3</button>
+<button class="amountBtn">10</button>
+<button class="amountBtn">50</button>
 
 </div>
-
 
 
 
 <input 
-class="input"
-placeholder="Введите сумму GRAM">
+id="donateInput"
+class="donateInput"
+placeholder="Введите сумму GRAM"
+value="0.3">
 
 
 
-
-
-<button class="btn send">
-
+<button class="payBtn">
 💎 Оплатить GRAM
-
 </button>
 
 
-
-<button class="btn connect">
-
+<button class="connectBtn">
 🔗 Connect Wallet
-
 </button>
 
 
 
-
-<div class="status">
-
+<div class="donateStatus">
 Wallet not connected
-
-</div>
-
-
 </div>
 
 
 
+</div>
 
 
-<div class="footer">
 
+<div class="donateFooter">
 Powered by TON • AVA EDGE 2026
-
 </div>
 
-    </div>
+
+</div>
 
 </div>
 
