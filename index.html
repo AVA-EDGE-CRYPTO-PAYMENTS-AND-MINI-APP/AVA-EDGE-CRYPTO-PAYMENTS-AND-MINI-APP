@@ -1339,6 +1339,111 @@ transform:translateY(-5px);
 .cyberWalletCard::before{
     display:none !important;
 }
+
+.donateModal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:999999;
+}
+
+.donateModal.show{
+    display:flex;
+}
+
+.donateWindow{
+    width:100%;
+    max-width:390px;
+    max-height:95vh;
+    overflow:auto;
+    border-radius:30px;
+}
+
+.donateBox{
+background:#fff;
+border-radius:30px;
+padding:25px;
+text-align:center;
+position:relative;
+box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+
+.donateClose{
+position:absolute;
+right:15px;
+top:15px;
+border:none;
+background:#eee;
+width:35px;
+height:35px;
+border-radius:50%;
+font-size:18px;
+}
+
+.donateLogo{
+font-size:60px;
+margin-bottom:10px;
+}
+
+.donateBox h2{
+font-size:24px;
+font-weight:900;
+}
+
+.donateBox p{
+margin:8px 0 20px;
+color:#777;
+}
+
+.donateAmount{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+background:#f3f3f3;
+padding:12px;
+border-radius:18px;
+}
+
+.donateAmount input{
+width:100px;
+border:none;
+background:none;
+font-size:22px;
+font-weight:900;
+text-align:center;
+outline:none;
+}
+
+.quickDonate{
+display:flex;
+gap:8px;
+margin:20px 0;
+}
+
+.quickDonate button{
+flex:1;
+height:38px;
+border:none;
+border-radius:14px;
+background:linear-gradient(135deg,#00e5ff,#2979ff);
+color:#fff;
+font-weight:900;
+}
+
+.sendDonate{
+width:100%;
+height:50px;
+border:none;
+border-radius:18px;
+background:linear-gradient(135deg,#00e5ff,#651fff);
+color:#fff;
+font-weight:900;
+font-size:16px;
+}
 </style>
 </head>
 
@@ -1683,7 +1788,7 @@ return t[lang].open;
 
 const data={
 games:[
-{n:"y8gams",u:"https://t.me/Crocodile_gaming_bot?startapp=a502deae6395659a",i:"https://i.ibb.co/7dd4pgmX/i-2.jpg",ribbonText:"TOP🔥",  ribbonColor:"gold"},
+{n:"y8gams",u:"https://t.me/wallet/start?startapp=main",i:"https://i.ibb.co/7dd4pgmX/i-2.jpg",ribbonText:"TOP🔥",  ribbonColor:"gold"},
 {n:"gamvерсе",u:"https://t.me/Ava_Edge_bot?startapp=8662cc17d3ae3c41",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"HOT", ribbonColor:"red"},
 {n:"yTka",u:"https://t.me/Ava_Edge_bot?startapp=a89b4bcbed8f3bf3",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"NEW", ribbonColor:"blue"},
 {n:"1942",u:"https://t.me/Ava_Edge_bot?startapp=7bc42035e0f0ff7f",i:"https://i.ibb.co/fYWJPPFh/JMCO-Healthcare-4.png",ribbonText:"PRO", ribbonColor:"purple"},
@@ -2435,14 +2540,275 @@ tonConnectUI.onStatusChange(wallet => {
 
 });
 
-function openDonatePage() {
-  // Пока просто обработчик клика
-  console.log("Кнопка Донатить нажата");
+function openDonatePage(){
 
-  // Позже здесь будет открываться страница донатов
+    document
+    .getElementById("donateModal")
+    .classList.add("show");
+
+}
+
+
+function closeDonate(){
+
+    document
+    .getElementById("donateModal")
+    .classList.remove("show");
+
+}
+
+
+function setDonate(value){
+
+    document
+    .getElementById("donateAmount")
+    .value=value;
+
 }
 
 </script>
+
+<div id="donateModal" class="donateModal">
+
+    <div class="donateWindow">
+
+        <div class="app">
+
+
+<div class="top">
+
+<div class="logo">
+AVA <span>EDGE</span>
+</div>
+
+
+<button class="close" onclick="closeDonate()">
+×
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="wallet">
+
+
+<div class="wallet-head">
+
+<span>
+GRAM WALLET
+</span>
+
+<span>
+TON
+</span>
+
+</div>
+
+
+
+
+<div class="balance">
+
+<span id="topAmount">0.00</span>
+
+<small>GRAM</small>
+
+</div>
+
+
+
+
+<div class="gram">
+
+
+<svg viewBox="0 0 100 100">
+
+
+<defs>
+
+<linearGradient id="diamond"
+x1="0"
+y1="0"
+x2="1"
+y2="1">
+
+<stop offset="0%"
+stop-color="#ffffff"/>
+
+<stop offset="45%"
+stop-color="#dff6ff"/>
+
+<stop offset="100%"
+stop-color="#8bdcff"/>
+
+</linearGradient>
+
+
+</defs>
+
+
+
+<path
+d="
+M20 35
+L35 18
+H65
+L80 35
+L50 85
+Z"
+
+fill="url(#diamond)"
+
+stroke="#0098EA"
+
+stroke-width="3"/>
+
+
+
+<path
+d="
+M20 35
+H80
+L65 18
+H35
+Z"
+
+fill="#fff"/>
+
+
+
+<path
+d="
+M35 18
+L50 35
+L65 18
+
+M20 35
+L50 35
+L80 35
+
+M50 35
+V85
+
+M35 18
+L50 85
+
+M65 18
+L50 85"
+
+fill="none"
+
+stroke="#0098EA"
+
+stroke-width="2"/>
+
+
+</svg>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="card">
+
+
+<div class="title">
+
+Support AVA EDGE
+
+</div>
+
+
+<div class="sub">
+
+Поддержите развитие Web3 экосистемы
+
+</div>
+
+
+
+
+<div class="amounts">
+
+
+<button class="amount">0.1</button>
+
+<button class="amount">0.3</button>
+
+<button class="amount">1</button>
+
+
+<button class="amount">3</button>
+
+<button class="amount">10</button>
+
+<button class="amount">50</button>
+
+
+</div>
+
+
+
+
+<input 
+class="input"
+placeholder="Введите сумму GRAM">
+
+
+
+
+
+<button class="btn send">
+
+💎 Оплатить GRAM
+
+</button>
+
+
+
+<button class="btn connect">
+
+🔗 Connect Wallet
+
+</button>
+
+
+
+
+<div class="status">
+
+Wallet not connected
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="footer">
+
+Powered by TON • AVA EDGE 2026
+
+</div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
