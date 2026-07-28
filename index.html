@@ -1340,216 +1340,272 @@ transform:translateY(-5px);
     display:none !important;
 }
 
-/* =========================
-   DONATE MODAL
-========================= */
+/* ===== AVA DONATE WINDOW ===== */
 
-.donateModal{
+.avaDonateOverlay{
+position:fixed;
+inset:0;
 
-  position:fixed;
-  inset:0;
+background:rgba(0,0,0,.55);
 
-  background:rgba(0,0,0,.45);
+display:none;
+align-items:center;
+justify-content:center;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  opacity:0;
-  pointer-events:none;
-
-  transition:.3s ease;
-
-  z-index:99999;
+z-index:999999;
 }
 
 
-.donateModal.show{
-
-  opacity:1;
-  pointer-events:auto;
-
+.avaDonateOverlay.show{
+display:flex;
 }
 
 
-.donateWindow{
+.avaDonateApp{
 
-  width:280px;
+width:390px;
+max-width:95%;
 
-  padding:22px;
+height:100%;
+max-height:850px;
 
-  border-radius:28px;
+overflow-y:auto;
 
-  background:
-  linear-gradient(
-    145deg,
-    #ffffff,
-    #eeeeee
-  );
+padding:18px;
 
-  box-shadow:
-  0 20px 60px rgba(0,0,0,.25);
+background:
+radial-gradient(circle at top,#dff5ff,#f4f7fb 50%);
 
-  text-align:center;
+border-radius:35px;
 
-  position:relative;
-
-  animation:donatePop .35s ease;
+color:#111827;
 
 }
 
 
-@keyframes donatePop{
-
-from{
-transform:scale(.8);
-opacity:0;
-}
-
-to{
-transform:scale(1);
-opacity:1;
-}
-
+.avaTop{
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 
-.donateClose{
+.avaLogo{
+font-size:25px;
+font-weight:900;
+}
 
-  position:absolute;
 
-  top:12px;
-  right:12px;
+.avaLogo span{
+color:#0098EA;
+}
 
-  width:32px;
-  height:32px;
 
-  border:none;
+.avaClose{
 
-  border-radius:50%;
+width:40px;
+height:40px;
 
-  background:#eee;
+border:0;
+border-radius:50%;
 
-  font-size:18px;
+background:#fff;
 
-  cursor:pointer;
+font-size:22px;
 
 }
 
 
-.donateIconBig{
 
-  font-size:48px;
+.avaWallet{
 
-  margin-top:10px;
+margin-top:20px;
 
-}
+height:220px;
 
+padding:25px;
 
-.donateWindow h2{
+border-radius:38px;
 
-  margin-top:10px;
+background:
+linear-gradient(
+145deg,
+#0098EA,
+#0057ff
+);
 
-  font-size:22px;
+color:white;
 
-  font-weight:900;
+position:relative;
 
-}
-
-
-.donateWindow p{
-
-  color:#777;
-
-  font-size:14px;
-
-  margin:8px 0 18px;
+overflow:hidden;
 
 }
 
 
-#donateAmount{
+.avaBalance{
 
-  width:100%;
+margin-top:20px;
 
-  height:45px;
+font-size:45px;
 
-  border-radius:16px;
-
-  border:1px solid #ddd;
-
-  padding:0 15px;
-
-  font-size:16px;
-
-  font-weight:700;
-
-  outline:none;
+font-weight:900;
 
 }
 
 
-.donateButtons{
 
-  display:flex;
+.avaCard{
 
-  gap:8px;
+margin-top:22px;
 
-  margin-top:12px;
+padding:22px;
 
-}
+border-radius:34px;
 
+background:#ffffffdd;
 
-.donateButtons button{
-
-  flex:1;
-
-  height:38px;
-
-  border:none;
-
-  border-radius:14px;
-
-  background:
-  linear-gradient(
-    135deg,
-    #00e5ff,
-    #2979ff,
-    #651fff
-  );
-
-  color:white;
-
-  font-weight:900;
+backdrop-filter:blur(20px);
 
 }
 
 
-.sendDonate{
 
-  width:100%;
+.avaTitle{
 
-  height:46px;
+font-size:26px;
+font-weight:900;
 
-  margin-top:16px;
+}
 
-  border:none;
 
-  border-radius:18px;
+.avaSub{
 
-  background:
-  linear-gradient(
-    135deg,
-    #00e5ff,
-    #2979ff,
-    #651fff
-  );
+margin-top:8px;
 
-  color:white;
+color:#667085;
 
-  font-size:16px;
+}
 
-  font-weight:900;
+
+.avaAmounts{
+
+margin-top:22px;
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:12px;
+
+}
+
+
+.avaAmount{
+
+height:48px;
+
+border:0;
+
+border-radius:17px;
+
+background:#f1f5f9;
+
+font-weight:700;
+
+}
+
+
+.avaAmount.active{
+
+background:#0098EA;
+
+color:white;
+
+}
+
+
+.avaInput{
+
+width:100%;
+
+height:55px;
+
+margin-top:15px;
+
+border:0;
+
+border-radius:20px;
+
+background:#f1f5f9;
+
+text-align:center;
+
+font-size:17px;
+
+}
+
+
+.avaBtn{
+
+width:100%;
+
+height:58px;
+
+margin-top:15px;
+
+border:0;
+
+border-radius:22px;
+
+font-size:17px;
+
+font-weight:800;
+
+color:white;
+
+}
+
+
+.avaSend{
+
+background:
+linear-gradient(
+135deg,
+#00A8FF,
+#0066FF
+);
+
+}
+
+
+.avaConnect{
+
+background:
+linear-gradient(
+135deg,
+#4CC9FF,
+#0098EA
+);
+
+}
+
+
+.avaStatus{
+
+margin-top:15px;
+
+padding:14px;
+
+border-radius:20px;
+
+background:#f4f7fb;
+
+text-align:center;
+
+color:#667085;
+
+font-size:13px;
 
 }
 </style>
@@ -1716,59 +1772,112 @@ fill="url(#starGrad)"/>
     <button id="closeBtn" class="siriClose">CLOSE</button>
 </div>
 
-<!-- DONATE MODAL -->
-<div class="donateModal" id="donateModal">
+<div class="avaDonateOverlay" id="avaDonateOverlay">
 
-  <div class="donateWindow">
 
-    <button class="donateClose" onclick="closeDonatePage()">
-      ✕
-    </button>
+<div class="avaDonateApp">
 
-    <div class="donateIconBig">
-      💎
-    </div>
 
-    <h2>
-      TON Donate
-    </h2>
+<div class="avaTop">
 
-    <p>
-      Поддержать развитие AVA EDGE
-    </p>
+<div class="avaLogo">
+AVA <span>EDGE</span>
+</div>
 
-    <input 
-      id="donateAmount"
-      type="number"
-      placeholder="Сумма TON"
-      value="0.3"
-    >
 
-    <div class="donateButtons">
+<button class="avaClose" onclick="closeDonate()">
+×
+</button>
 
-      <button onclick="setDonate(0.1)">
-        0.1
-      </button>
 
-      <button onclick="setDonate(0.3)">
-        0.3
-      </button>
+</div>
 
-      <button onclick="setDonate(1)">
-        1
-      </button>
 
-      <button onclick="setDonate(3)">
-        3
-      </button>
 
-    </div>
+<div class="avaWallet">
 
-    <button class="sendDonate">
-      SEND TON
-    </button>
+<div>
+GRAM WALLET
+</div>
 
-  </div>
+
+<div class="avaBalance">
+
+<span id="avaTopAmount">
+0.00
+</span>
+
+<small>GRAM</small>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="avaCard">
+
+
+<div class="avaTitle">
+Support AVA EDGE
+</div>
+
+
+<div class="avaSub">
+Поддержите развитие Web3 экосистемы
+</div>
+
+
+
+<div class="avaAmounts">
+
+<button class="avaAmount">0.1</button>
+
+<button class="avaAmount">0.3</button>
+
+<button class="avaAmount">1</button>
+
+<button class="avaAmount">3</button>
+
+<button class="avaAmount">10</button>
+
+<button class="avaAmount">50</button>
+
+
+</div>
+
+
+
+<input 
+class="avaInput"
+placeholder="Введите сумму GRAM">
+
+
+
+<button class="avaBtn avaSend">
+💎 Оплатить GRAM
+</button>
+
+
+
+<button class="avaBtn avaConnect">
+🔗 Connect Wallet
+</button>
+
+
+
+<div class="avaStatus">
+Wallet not connected
+</div>
+
+
+</div>
+
+
+</div>
 
 </div>
 
@@ -2706,7 +2815,19 @@ tonConnectUI.onStatusChange(wallet => {
 
 function openDonatePage(){
 
-  document.getElementById("donateModal").classList.add("show");
+document
+.getElementById("avaDonateOverlay")
+.classList.add("show");
+
+}
+
+
+
+function closeDonate(){
+
+document
+.getElementById("avaDonateOverlay")
+.classList.remove("show");
 
 }
 
