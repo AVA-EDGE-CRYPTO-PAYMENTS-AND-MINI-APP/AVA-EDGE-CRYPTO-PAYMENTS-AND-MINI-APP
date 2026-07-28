@@ -2656,8 +2656,14 @@ tonConnectUI.onStatusChange(wallet => {
 
 });
 
-function openDonatePage() {
-    document.getElementById("donateModal").style.display = "flex";
+function openDonatePage(){
+
+    const modal = document.getElementById("donateModal");
+
+    if(modal){
+        modal.style.display="flex";
+    }
+
 }
 
 function closeDonateModal() {
@@ -2677,14 +2683,11 @@ document.querySelectorAll(".donateAmounts button").forEach(btn => {
 
 
 // Кнопка отправки доната
-document.querySelector(".sendDonate").onclick = async () => {
+const sendDonateBtn = document.querySelector(".sendDonate");
 
-    const amount = document.querySelector(".donateInput").value;
+if(sendDonateBtn){
 
-    if(!amount || amount <= 0){
-        alert("Введите сумму TON");
-        return;
-    }
+sendDonateBtn.onclick = async () => {
 
 
     if(!tonConnectUI.connected){
@@ -2729,6 +2732,8 @@ document.querySelector(".sendDonate").onclick = async () => {
     }
 
 };
+
+}
 
 </script>
 
